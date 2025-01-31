@@ -7,33 +7,47 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer
 {
-    public class AthleteAd
+    public enum Position
+    { 
+     GoalKeeper,CentralBack,LeftBack,RightBack
+    ,CentralDefensiveMidfielder,CentralMidfielder,CentralAtackingMidfielder,LeftMidfielder,RightMidfielder
+    ,LeftWinger,RightWinger,Striker
+    }
+    public enum LeftOrRightFoot
+    { 
+     LeftFoot,
+     RightFoot
+    }
+    public class AthleteAd:Ad
     {
-        [Key]
-        public string Id { get; set; }
-        [Required(ErrorMessage = "Must have position!")]
-        public string Position { get; set; }
-        [Required(ErrorMessage = "Must have Country!")]
-        public string Country { get; set; }
-        [Required(ErrorMessage = "Must have City!")]
+        #region Properties
+        [Required(ErrorMessage = "Position is required!")]
+        public Position Position { get; set; }
+        [Required(ErrorMessage = "Country is required!")]
+        public Country Country { get; set; }
+        [Required(ErrorMessage = "City is required!")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "City name must be between 5 and 50!")]
         public string City { get; set; }
 
-        //public int Age { get; set; }
-        [Required(ErrorMessage = "Must choose left or rigt foot!")]
-        public string LeftOrRighFoot { get; set; }
-
+        [Required(ErrorMessage = "Must choose between left or rigt foot!")]
+        public LeftOrRightFoot LeftOrRighFoot { get; set; }
+        [Required(ErrorMessage = "Teams that you played is required!")]
+        [StringLength(5000, MinimumLength = 5, ErrorMessage = "Max 5000 symbols")]
         public string TeamsPlayed { get; set; }
+        [StringLength(1000, MinimumLength = 5, ErrorMessage = "Must be between 5 and 1000!")]
         public string Achievements { get; set; }
-      //public string PhoneNumber { get; set; }
-      //public string Email { get; set; }
-        
-        public string AthleteId { get; set; }
-        public Athlete Athlete { get; set; }
 
-        public AthleteAd(Athlete athlete,string postion,string country,string city,string leftOrRightFoot,string teamsPlayed,string achievements) 
+        #endregion
+
+        #region Constructors
+
+        public AthleteAd()
         { 
-         Athlete = athlete;
-         AthleteId = athlete.UserId;
+         
+        }
+        public AthleteAd(string title,string userId,Position postion,Country country,string city, LeftOrRightFoot leftOrRightFoot
+            ,string teamsPlayed,string achievements):base(title,userId) 
+        { 
          Position = postion;
          Country = country;
          City = city;
@@ -41,6 +55,8 @@ namespace BusinessLayer
          TeamsPlayed = teamsPlayed;
          Achievements = achievements;
         }
+
+        #endregion
 
     }
 }
