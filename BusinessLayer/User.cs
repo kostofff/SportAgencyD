@@ -13,17 +13,21 @@ namespace BusinessLayer
 {
     public class User : IdentityUser
     {
-       public Role UserRole { get; set; } 
+        [Required]
+        public Role UserRole { get; set; } 
+        public virtual ICollection<Ad> Ads { get; set; }
 
         public User() 
         { 
         
         }
-        public User(string userName, string email, Role userRole) 
+        public User(string userName, string email,string phoneNumber, Role userRole) 
         { 
          UserName = userName;
          Email = email;
+         PhoneNumber = phoneNumber;
          UserRole = userRole;
+         Ads = new List<Ad>();
         }
     }
 }
