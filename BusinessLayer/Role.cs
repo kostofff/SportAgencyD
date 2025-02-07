@@ -11,6 +11,7 @@ namespace BusinessLayer
     {
        Admin,
        Athlete,
-       Club
+       Club,
+       GeneralUser
     }
 }

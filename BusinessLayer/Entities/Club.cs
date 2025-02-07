@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer
+namespace BusinessLayer.Entities
 {
     public enum Country
     {
@@ -15,7 +15,7 @@ namespace BusinessLayer
             , CapeVerde, Cambodia, Cameroon, Canada, CentralAfricanRepublic, Chad, Chile, China, Colombia
             , ComorosIslands, Congo, CostaRica, IvoryCoast, Croatia, Cuba, Cyprus
             , CzechRepublic, Denmark, Djibouti, Dominica, DominicanRepublic, EastTimor, Ecuador, Egypt
-            , ElSalvador, EquatorialGuinea, Eritrea, Estonia, Eswatini , Ethiopia, Fiji, Finland
+            , ElSalvador, EquatorialGuinea, Eritrea, Estonia, Eswatini, Ethiopia, Fiji, Finland
             , France, Gabon, Gambia, Georgia, Germany, Ghana, Greece, Grenada, Guatemala, Guinea, GuineaBissau
             , Guyana, Haiti, Honduras, Hungary, Iceland, India, Indonesia, Iran, Iraq, Ireland, Israel, Italy
             , Jamaica, Japan, Jordan, Kazakhstan, Kenya, Kiribati, Kuwait, Kyrgyzstan, Laos, Latvia, Lebanon
@@ -31,14 +31,14 @@ namespace BusinessLayer
             , Tuvalu, Uganda, Ukraine, UnitedArabEmirates, UnitedKingdom, UnitedStatesofAmerica, Uruguay
             , Uzbekistan, Vanuatu, VaticanCity, Venezuela, Vietnam, Yemen, Zambia, Zimbabwe
     }
-    public class Club:User
+    public class Club : User
     {
         #region Properties
         [Required(ErrorMessage = "Club name is required!")]
-        [StringLength(50, MinimumLength = 5, ErrorMessage = "Club name must be between 5 and 50!")]
+        [StringLength(80, MinimumLength = 2, ErrorMessage = "Club name must be between 2 and 80!")]
         public string ClubName { get; set; }
         [Required(ErrorMessage = "Country is required!")]
-        public Country Country{ get; set; }
+        public Country Country { get; set; }
         [Required(ErrorMessage = "City is required!")]
         [StringLength(50, MinimumLength = 5, ErrorMessage = "City name must be between 5 and 50!")]
         public string City { get; set; }
@@ -50,16 +50,16 @@ namespace BusinessLayer
 
         #region Constructors
         public Club()
-        { 
-        
+        {
+
         }
-        public Club(string clubName,Country country,string city,string league,string website) 
-        { 
-         ClubName = clubName;
-         Country = country;
-         City = city;
-         League = league;
-         Website = website;
+        public Club(string clubName, Country country, string city, string league, string website)
+        {
+            ClubName = clubName;
+            Country = country;
+            City = city;
+            League = league;
+            Website = website;
         }
 
         #endregion

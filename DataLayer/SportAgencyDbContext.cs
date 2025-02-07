@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using BusinessLayer.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,7 @@ namespace DataLayer
         {
 
         }
-        public SportAgencyDbContext(DbContextOptions options) : base(options)
+        public SportAgencyDbContext(DbContextOptions<SportAgencyDbContext> options) : base(options)
         {
 
         }
@@ -21,16 +22,13 @@ namespace DataLayer
 
             modelBuilder.Entity<User>()
         .HasDiscriminator<Role>("UserRole")
+        .HasValue<User>(Role.GeneralUser)
         .HasValue<Athlete>(Role.Athlete)
-        .HasValue<Club>(Role.Club);
-
-            modelBuilder.Entity<Ad>()
-        .HasDiscriminator<AdType>("AdType")
-        .HasValue<AthleteAd>(AdType.AthleteAd)
-        .HasValue<ClubAd>(AdType.ClubAd);
+        .HasValue<Club>(Role.Club);   
 
         }
 
-        public DbSet<Ad> Ads { get; set; }
+        public DbSet<AthleteAd> AthleteAds { get; set; }
+        public DbSet<ClubAd> ClubAds { get; set; }
     }
 }
