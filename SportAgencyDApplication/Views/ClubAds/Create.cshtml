@@ -1,0 +1,140 @@
+﻿@model BusinessLayer.Entities.ClubAd
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<script>
+
+    function OnLoad() {
+        const selected = document.querySelectorAll('[selected="selected"]');
+        selected.forEach((item) => { item.removeAttribute('selected') });
+    }
+
+
+
+    function OnSportChange() {
+
+        const position = document.getElementById('SearchedPosition');
+
+        var sport = document.getElementById('Sport');
+        var currentSport = sport.options[sport.selectedIndex].value;
+
+        position.disabled = false;
+
+        position.innerHTML = '';
+
+        if (currentSport === 'Football') {
+            position.innerHTML += '<option value="Goalkeeper">Goalkeeper</option>';
+            position.innerHTML += '<option value="CentralBack">Center Back</option>';
+            position.innerHTML += '<option value="LeftBack">Left Back</option>';
+            position.innerHTML += '<option value="RightBack">Right Back</option>';
+            position.innerHTML += '<option value="CentralDefensiveMidfielder">Central Defensive Midfielder</option>';
+            position.innerHTML += '<option value="CentralMidfielder">Central Midfielder</option>';
+            position.innerHTML += '<option value="CentralAtackingMidfielder">Central Atacking Midfielder</option>';
+            position.innerHTML += '<option value="LeftMidfielder">Left Midfielder</option>';
+            position.innerHTML += '<option value="RightMidfielder">Right Midfielder</option>';
+            position.innerHTML += '<option value="Striker">Striker</option>';
+            position.innerHTML += '<option value="LeftWinger">Left Winger</option>';
+            position.innerHTML += '<option value="RightWinger">Right Winger</option>';
+        }
+        if (currentSport === 'Basketball') {
+            position.innerHTML += '<option value="PointGuard">Point Guard</option>';
+            position.innerHTML += '<option value="ShootingGuard">Shooting Guard</option>';
+            position.innerHTML += '<option value="SmallForward">Small Forward</option>';
+            position.innerHTML += '<option value="PowerForward">Power Forward</option>';
+            position.innerHTML += '<option value="Center">Center</option>';
+        }
+        if (currentSport === 'Volleyball') {
+            position.innerHTML += '<option value="Setter">Setter</option>';
+            position.innerHTML += '<option value="OppositeHitter">Opposite Hitter</option>';
+            position.innerHTML += '<option value="RightSideHitter">Right SideHitter</option>';
+            position.innerHTML += '<option value="LeftSideHitter">Left Side Hitter</option>';
+            position.innerHTML += '<option value="MiddleBlocker">Middle Blocker</option>';
+            position.innerHTML += '<option value="Libero">Libero</option>';
+        }
+        if (currentSport === 'HockeyOnIce') {
+            position.innerHTML += '<option value="Goaltender">Goaltender</option>';
+            position.innerHTML += '<option value="LeftDefenseman">Left Defenseman</option>';
+            position.innerHTML += '<option value="RightDefenseman">Right Defenseman</option>';
+            position.innerHTML += '<option value="Center">Center</option>';
+            position.innerHTML += '<option value="LeftWing">Left Wing</option>';
+            position.innerHTML += '<option value="RightWing">Right Wing</option>';
+        }
+        if (currentSport === 'HockeyOnGrass') {
+            position.innerHTML += '<option value="GoalKeeper">GoalKeeper</option>';
+            position.innerHTML += '<option value="CenterBack">CenterBack</option>';
+            position.innerHTML += '<option value="Fullback">Fullback</option>';
+            position.innerHTML += '<option value="Midfielder">Midfielder</option>';
+            position.innerHTML += '<option value="Forward">Forward</option>';
+        }
+    }
+</script>
+
+
+<h1>Create</h1>
+
+<h4>ClubAd</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sport" class="control-label"></label>
+                <select asp-for="Sport" id="Sport" class="form-control" asp-items="ViewBag.Sports" onchange="OnSportChange()">
+                    <option selected="selected" value="">-- Select Sport --</option>
+                </select>
+                <span asp-validation-for="Sport" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SearchedPosition" class="control-label"></label>
+                <select asp-for="SearchedPosition" id="SearchedPosition" class="form-control" disabled>
+                    <option value="">-- Select Position --</option>
+                </select>
+                <span asp-validation-for="SearchedPosition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SearchedStrongFoot" class="control-label"></label>
+                <select asp-for="SearchedStrongFoot" class="form-control" asp-items="ViewBag.SearchedStrongFoot">
+                    <option value="">-- Select SearchedStrongFoot --</option>
+                </select>
+                <span asp-validation-for="SearchedStrongFoot" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimumAge" class="control-label"></label>
+                <input asp-for="MinimumAge" class="form-control" />
+                <span asp-validation-for="MinimumAge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximumAge" class="control-label"></label>
+                <input asp-for="MaximumAge" class="form-control" />
+                <span asp-validation-for="MaximumAge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="UserId" /> 
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

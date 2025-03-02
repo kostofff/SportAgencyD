@@ -12,7 +12,7 @@ namespace BusinessLayer.Entities
     {
         #region Properties
         [Key]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required(ErrorMessage = "Title is required!")]
         [StringLength(100, MinimumLength = 12, ErrorMessage = "Title must be between 12 and 100!")]
@@ -38,9 +38,11 @@ namespace BusinessLayer.Entities
         [StringLength(5000, MinimumLength = 20, ErrorMessage = "Description must be between 20 and 5000 words")]
         public string Description { get; set; }
 
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
         public string UserId { get; set; }
         [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
         #endregion
 
         #region Constructor

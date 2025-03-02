@@ -1,5 +1,5 @@
 ﻿using BusinessLayer.Entities;
-using DataLayer.AdsInterfaces;
+using DataLayer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

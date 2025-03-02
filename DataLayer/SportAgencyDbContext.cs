@@ -11,7 +11,7 @@ namespace DataLayer
         {
 
         }
-        public SportAgencyDbContext(DbContextOptions<SportAgencyDbContext> options) : base(options)
+        public SportAgencyDbContext(DbContextOptions options) : base(options)
         {
 
         }

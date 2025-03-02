@@ -1,18 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLayer.Entities
 {
     public enum Position
     {
-        GoalKeeper, CentralBack, LeftBack, RightBack
-    , CentralDefensiveMidfielder, CentralMidfielder, CentralAtackingMidfielder, LeftMidfielder, RightMidfielder
-    , LeftWinger, RightWinger, Striker
+        //football
+        GoalKeeper, CentralBack, LeftBack, RightBack, CentralDefensiveMidfielder, CentralMidfielder,
+        CentralAtackingMidfielder, LeftMidfielder, RightMidfielder, Striker, LeftWinger, RightWinger,
+
+        //Bsketball
+        PointGuard, ShootingGuard, SmallForward, PowerForward, Center,
+
+        //VolleyBall
+        Setter, OppositeHitter, RightSideHitter, LeftSideHitter, MiddleBlocker, Libero,
+
+        //HockeyOnIce
+        Goaltender, LeftDefenseman, RightDefenseman, /*Center*/ LeftWing, RightWing,
+
+        //HockeyOnGrass
+        /*Goalkeeper*/ CenterBack, Fullback, Midfielder, Forward
     }
     public enum LeftOrRightFoot
     {
@@ -20,14 +27,15 @@ namespace BusinessLayer.Entities
         RightFoot
     }
     public enum Sports
-    { 
-     Football,Basketball,Voleyball,Tennis,TableTennis,Golf,Athletics,MMA,Judo,Krate,Box,Wrestling,Jiu_Jitsu,Gymnastics,Swimming,ESports
+    {
+        Football, Basketball, Volleyball, HockeyOnIce, HockeyOnGrass
     }
     public class AthleteAd
     {
         #region Properties
         [Key]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+
 
         [Required(ErrorMessage = "Title is required!")]
         [StringLength(100, MinimumLength = 12, ErrorMessage = "Title must be between 12 and 100!")]
@@ -56,10 +64,13 @@ namespace BusinessLayer.Entities
         [StringLength(1000, MinimumLength = 1, ErrorMessage = "Must be between 1 and 5000!")]
         public string Achievements { get; set; }
 
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+
         [ForeignKey("UserId")]
         public string UserId { get; set; }
-        [Required]
-        public virtual User User { get; set; }
+
+        public virtual User? User { get; set; }
 
         #endregion
 
@@ -69,9 +80,10 @@ namespace BusinessLayer.Entities
         {
 
         }
-        public AthleteAd(User user, string title,Sports sport, Position postion, Country country, string city, LeftOrRightFoot leftOrRightFoot
+        public AthleteAd(User user, string title, Sports sport, Position postion, Country country, string city, LeftOrRightFoot leftOrRightFoot
             , string teamsPlayed, string achievements)
         {
+           
             User = user;
             UserId = user.Id;
             Title = title;

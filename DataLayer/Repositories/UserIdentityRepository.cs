@@ -2,6 +2,7 @@
 using BusinessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DataLayer.Repositories
 {
@@ -9,12 +10,15 @@ namespace DataLayer.Repositories
     {
         SportAgencyDbContext context;
         UserManager<User> userManager;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
         public UserIdentityRepository(SportAgencyDbContext context,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IServiceScopeFactory serviceScopeFactory)
         {
             this.context = context;
             this.userManager = userManager;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         #region  Seeding Data with project(Make first profile ADMIN)
@@ -183,7 +187,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public async Task UpdateUserAsync(string id, string username)
+        public async Task UpdateUserAsync(string id, string username, string phoneNumber, Role newRole)
         {
             try
             {
@@ -195,6 +199,8 @@ namespace DataLayer.Repositories
                     if (user != null)
                     {
                         user.UserName = username;
+                        user.PhoneNumber = phoneNumber;
+                        user.UserRole = newRole;
 
                         await userManager.UpdateAsync(user);
                     }
@@ -206,6 +212,7 @@ namespace DataLayer.Repositories
                 throw;
             }
         }
+
         public async Task DeleteUserByNameAsync(string username)
         {
             try

@@ -3,7 +3,7 @@ using DataLayer.AdsInterface;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace DataLayer.AdsInterfaces
+namespace DataLayer.Repositories
 {
     public class AthleteAdRepository : IAdRepository<AthleteAd, string>
     {

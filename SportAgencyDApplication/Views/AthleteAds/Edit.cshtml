@@ -1,0 +1,146 @@
+﻿@model BusinessLayer.Entities.AthleteAd
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<script>
+
+    function OnLoad() {
+        const selected = document.querySelectorAll('[selected="selected"]');
+        selected.forEach((item) => { item.removeAttribute('selected') });
+    }
+
+
+
+    function OnSportChange() {
+
+        const position = document.getElementById('Position');
+
+        var sport = document.getElementById('Sport');
+        var currentSport = sport.options[sport.selectedIndex].value;
+
+        position.disabled = false;
+
+        position.innerHTML = '';
+
+        if (currentSport === 'Football') {
+            position.innerHTML += '<option value="Goalkeeper">Goalkeeper</option>';
+            position.innerHTML += '<option value="CentralBack">Center Back</option>';
+            position.innerHTML += '<option value="LeftBack">Left Back</option>';
+            position.innerHTML += '<option value="RightBack">Right Back</option>';
+            position.innerHTML += '<option value="CentralDefensiveMidfielder">Central Defensive Midfielder</option>';
+            position.innerHTML += '<option value="CentralMidfielder">Central Midfielder</option>';
+            position.innerHTML += '<option value="CentralAtackingMidfielder">Central Atacking Midfielder</option>';
+            position.innerHTML += '<option value="LeftMidfielder">Left Midfielder</option>';
+            position.innerHTML += '<option value="RightMidfielder">Right Midfielder</option>';
+            position.innerHTML += '<option value="Striker">Striker</option>';
+            position.innerHTML += '<option value="LeftWinger">Left Winger</option>';
+            position.innerHTML += '<option value="RightWinger">Right Winger</option>';
+        }
+        if (currentSport === 'Basketball') {
+            position.innerHTML += '<option value="PointGuard">Point Guard</option>';
+            position.innerHTML += '<option value="ShootingGuard">Shooting Guard</option>';
+            position.innerHTML += '<option value="SmallForward">Small Forward</option>';
+            position.innerHTML += '<option value="PowerForward">Power Forward</option>';
+            position.innerHTML += '<option value="Center">Center</option>';
+        }
+        if (currentSport === 'Volleyball') {
+            position.innerHTML += '<option value="Setter">Setter</option>';
+            position.innerHTML += '<option value="OppositeHitter">Opposite Hitter</option>';
+            position.innerHTML += '<option value="RightSideHitter">Right SideHitter</option>';
+            position.innerHTML += '<option value="LeftSideHitter">Left Side Hitter</option>';
+            position.innerHTML += '<option value="MiddleBlocker">Middle Blocker</option>';
+            position.innerHTML += '<option value="Libero">Libero</option>';
+        }
+        if (currentSport === 'HockeyOnIce') {
+            position.innerHTML += '<option value="Goaltender">Goaltender</option>';
+            position.innerHTML += '<option value="LeftDefenseman">Left Defenseman</option>';
+            position.innerHTML += '<option value="RightDefenseman">Right Defenseman</option>';
+            position.innerHTML += '<option value="Center">Center</option>';
+            position.innerHTML += '<option value="LeftWing">Left Wing</option>';
+            position.innerHTML += '<option value="RightWing">Right Wing</option>';
+        }
+        if (currentSport === 'HockeyOnGrass') {
+            position.innerHTML += '<option value="GoalKeeper">GoalKeeper</option>';
+            position.innerHTML += '<option value="CenterBack">CenterBack</option>';
+            position.innerHTML += '<option value="Fullback">Fullback</option>';
+            position.innerHTML += '<option value="Midfielder">Midfielder</option>';
+            position.innerHTML += '<option value="Forward">Forward</option>';
+        }
+    }
+</script>
+
+
+<h1>Edit</h1>
+
+<h4>AthleteAd</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sport" class="control-label"></label>
+                <select asp-for="Sport" id="Sport" class="form-control" asp-items="ViewBag.Sports" onchange="OnSportChange()">
+                    <option selected="selected" value="">-- Select Sport --</option>
+                </select>
+                <span asp-validation-for="Sport" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Position" class="control-label"></label>
+                <select asp-for="Position" id="Position" class="form-control" disabled>
+                    <option value="">-- Select Position --</option>
+                </select>
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country" class="control-label"></label>
+                <select asp-for="Country" class="form-control" asp-items="ViewBag.Country">
+                    <option value="">-- Select Country --</option>
+                </select>
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeftOrRighFoot" class="control-label"></label>
+                <select asp-for="LeftOrRighFoot" class="form-control" asp-items="ViewBag.LeftOrRightFoot">
+                    <option value="">-- Select Left or Right foot --</option>
+                </select>
+                <span asp-validation-for="LeftOrRighFoot" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeamsPlayed" class="control-label"></label>
+                <input asp-for="TeamsPlayed" class="form-control" />
+                <span asp-validation-for="TeamsPlayed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Achievements" class="control-label"></label>
+                <input asp-for="Achievements" class="form-control" />
+                <span asp-validation-for="Achievements" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
