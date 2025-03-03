@@ -9,9 +9,8 @@ namespace BusinessLayer
 {
     public enum Role
     {
-       Admin,
-       Athlete,
-       Club,
-       GeneralUser
+       Admin = 0,
+       Athlete = 1,
+       Club = 2      
     }
 }

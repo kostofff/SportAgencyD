@@ -178,6 +178,7 @@ namespace DataLayer.Migrations
                     LeftOrRighFoot = table.Column<int>(type: "int", nullable: false),
                     TeamsPlayed = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: false),
                     Achievements = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -203,6 +204,7 @@ namespace DataLayer.Migrations
                     MinimumAge = table.Column<int>(type: "int", nullable: false),
                     MaximumAge = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>

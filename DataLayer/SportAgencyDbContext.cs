@@ -22,7 +22,7 @@ namespace DataLayer
 
             modelBuilder.Entity<User>()
         .HasDiscriminator<Role>("UserRole")
-        .HasValue<User>(Role.GeneralUser)
+        .HasValue<User>(Role.Admin)
         .HasValue<Athlete>(Role.Athlete)
         .HasValue<Club>(Role.Club);   
 

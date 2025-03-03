@@ -10,15 +10,12 @@ namespace DataLayer.Repositories
     {
         SportAgencyDbContext context;
         UserManager<User> userManager;
-        private readonly IServiceScopeFactory _serviceScopeFactory;
 
         public UserIdentityRepository(SportAgencyDbContext context,
-            UserManager<User> userManager,
-            IServiceScopeFactory serviceScopeFactory)
+            UserManager<User> userManager)
         {
             this.context = context;
             this.userManager = userManager;
-            _serviceScopeFactory = serviceScopeFactory;
         }
 
         #region  Seeding Data with project(Make first profile ADMIN)

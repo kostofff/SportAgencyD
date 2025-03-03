@@ -1,18 +1,14 @@
 ﻿
-using BusinessLayer.Entities;
 using BusinessLayer;
+using BusinessLayer.Entities;
 using DataLayer;
+using DataLayer.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using DataLayer.Repositories;
 
 namespace SeedingDB
 {
@@ -47,24 +43,20 @@ namespace SeedingDB
 
                 UserIdentityRepository userIdentityRepository = new UserIdentityRepository(dbContext, userManager);
 
-                //dbContext.Roles.Add(new IdentityRole("Admin") { NormalizedName = "ADMIN" });
-                //dbContext.Roles.Add(new IdentityRole("Athlete") { NormalizedName = "Athlete" });
-                //dbContext.Roles.Add(new IdentityRole("Club") { NormalizedName = "Club" });
-                //try
-                //{
-                //    await dbContext.SaveChangesAsync();
-                //}
-                //catch (Exception ex)
-                //{
-                //    Console.WriteLine("Error while saving changes: " + ex.Message);
-                //    if (ex.InnerException != null)
-                //    {
-                //        Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
-                //    }
-                //}
+                if (!await dbContext.Roles.AnyAsync())
+                {
+                    await dbContext.Roles.AddRangeAsync(new List<IdentityRole>
+                     {
+                     new IdentityRole("Admin") { NormalizedName = "ADMIN" },
+                     new IdentityRole("Athlete") { NormalizedName = "ATHLETE" },
+                     new IdentityRole("Club") { NormalizedName = "CLUB" }
+                     });
+
+                    await dbContext.SaveChangesAsync();
+                }
 
 
-                Tuple<IdentityResult, User> result = await userIdentityRepository.CreateUserAsync("admin1", "admin1", "admincho1@abv.bg", "15879485", Role.Admin);
+                Tuple<IdentityResult, User> result = await userIdentityRepository.CreateUserAsync("admin", "admin", "admincho@abv.bg", "31313131", Role.Admin);
 
                 Console.WriteLine("Roles added successfully!");
 
