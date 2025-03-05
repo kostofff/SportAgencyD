@@ -5,71 +5,146 @@
     ViewData["Title"] = "Athlete Ads";
 }
 
-<div class="container mt-4">
-    @using Microsoft.AspNetCore.Identity
-    @inject SignInManager<User> SignInManager
-    @inject UserManager<User> UserManager
 
-    @{
-        var user = await UserManager.GetUserAsync(User);
-        var roles = user != null ? await UserManager.GetRolesAsync(user) : new List<string>(); // Проверка за null
-    }
 
-    <h1 class="text-center mb-4">Athlete Ads</h1>
-    @if (!roles.Contains("Club")) // Само ако не е Club, показваме бутона за нова обява
-    {
-        <div class="d-flex justify-content-between mb-3">
-            <a asp-action="Create" class="btn btn-primary">Create New</a>
-        </div>
-    }
-    
-    <table class="table table-striped table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Title)</th>
-                <th>@Html.DisplayNameFor(model => model.Sport)</th>
-                <th>@Html.DisplayNameFor(model => model.Position)</th>
-                <th>@Html.DisplayNameFor(model => model.Country)</th>
-                <th>@Html.DisplayNameFor(model => model.City)</th>
-                <th>@Html.DisplayNameFor(model => model.LeftOrRighFoot)</th>
-                <th>@Html.DisplayNameFor(model => model.TeamsPlayed)</th>
-                <th>@Html.DisplayNameFor(model => model.Achievements)</th>
-                <th>@Html.DisplayNameFor(model => model.User.UserName)</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+
+
+
+<label>Спорт:</label>
+<select id="sportFilter">
+    <option value="">Всички</option>
+    <option value="Football">Футбол</option>
+    <option value="Basketball">Баскетбол</option>
+</select>
+
+<label>Позиция:</label>
+<select id="positionFilter">
+    <option value="">Всички</option>
+    <option value="Forward">Нападател</option>
+    <option value="LeftWinger">Ляво Крило</option>
+</select>
+
+<label>Държава:</label>
+<select id="countryFilter">
+    <option value="">Всички</option>
+    <option value="Bulgaria">България</option>
+    <option value="Germany">Германия</option>
+</select>
+
+<label>Кой крак използва:</label>
+<select id="footFilter">
+    <option value="">Всички</option>
+    <option value="LeftFoot">Ляв</option>
+    <option value="RightFoot">Десен</option>
+</select>
+
+<label>Сортиране по дата:</label>
+<select id="dateSort">
+    <option value="desc">Най-нови</option>
+    <option value="asc">Най-стари</option>
+</select>
+
+<div id="adsContainer">
+    <div class="container mt-4">
+        @using Microsoft.AspNetCore.Identity
+        @inject SignInManager<User> SignInManager
+        @inject UserManager<User> UserManager
+
+        @{
+            var user = await UserManager.GetUserAsync(User);
+            var roles = user != null ? await UserManager.GetRolesAsync(user) : new List<string>(); // Проверка за null
+        }
+
+        <h1 class="text-center mb-4">Athlete Ads</h1>
+        @if (!roles.Contains("Club")) // Само ако не е Club, показваме бутона за нова обява
+        {
+            <div class="d-flex justify-content-between mb-3">
+                <a asp-action="Create" class="btn btn-primary">Create New</a>
+            </div>
+        }
+
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+
+
+                <script>
+                    function fetchSortedAthleteAds() {
+                        var sport = document.getElementById("sportFilter").value;
+                        var position = document.getElementById("positionFilter").value;
+                        var country = document.getElementById("countryFilter").value;
+                        var foot = document.getElementById("footFilter").value;
+                        var dateSort = document.getElementById("dateSort").value;
+
+                        var url = `/AthleteAds/GetSortedAthleteAds?sport=${sport}&position=${position}&country=${country}&foot=${foot}&dateSort=${dateSort}`;
+
+
+                        fetch(url)
+                            .then(response => response.text())
+                            .then(html => {
+                                document.getElementById("adsContainer").innerHTML = html;
+                            })
+                            .catch(error => console.error("Error:", error));
+                    }
+
+                    document.getElementById("sportFilter").addEventListener("change", fetchSortedAthleteAds);
+                    document.getElementById("positionFilter").addEventListener("change", fetchSortedAthleteAds);
+                    document.getElementById("countryFilter").addEventListener("change", fetchSortedAthleteAds);
+                    document.getElementById("footFilter").addEventListener("change", fetchSortedAthleteAds);
+                    document.getElementById("dateSort").addEventListener("change", fetchSortedAthleteAds);
+                </script>
+
+
+
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Sport)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Position)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Country)</td>
-                    <td>@Html.DisplayFor(modelItem => item.City)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LeftOrRighFoot)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TeamsPlayed)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Achievements)</td>
-                    <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
-                    @if (!roles.Contains("Club")) // Само ако не е Club, показваме бутонite
-                    {
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
-                        </td>
-                    }
-                    else
-                    {
-                        <td><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a></td>
-                    }
-
+                    <th>@Html.DisplayNameFor(model => model.Title)</th>
+                    <th>@Html.DisplayNameFor(model => model.Sport)</th>
+                    <th>@Html.DisplayNameFor(model => model.Position)</th>
+                    <th>@Html.DisplayNameFor(model => model.Country)</th>
+                    <th>@Html.DisplayNameFor(model => model.City)</th>
+                    <th>@Html.DisplayNameFor(model => model.LeftOrRighFoot)</th>
+                    <th>@Html.DisplayNameFor(model => model.TeamsPlayed)</th>
+                    <th>@Html.DisplayNameFor(model => model.Achievements)</th>
+                    <th>@Html.DisplayNameFor(model => model.User.UserName)</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Sport)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Position)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Country)</td>
+                        <td>@Html.DisplayFor(modelItem => item.City)</td>
+                        <td>@Html.DisplayFor(modelItem => item.LeftOrRighFoot)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TeamsPlayed)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Achievements)</td>
+                        <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
+                        @if (!roles.Contains("Club")) // Само ако не е Club, показваме бутонite
+                        {
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a></td>
+                        }
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+
 
 @section Styles {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 }
+
+

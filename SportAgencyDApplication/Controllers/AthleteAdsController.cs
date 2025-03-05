@@ -16,19 +16,76 @@ namespace SportAgencyDApplication.Controllers
     [Authorize(Roles = "Athlete,Club,Admin")] 
     public class AthleteAdsController : Controller
     {
+        private readonly SportAgencyDbContext _context;
         private readonly UserIdentityContext usercontext;
         private readonly AthleteAdContext athleteAdContext;
         private readonly UserManager<User> _userManager;
         private readonly SportAgencyDbContext _sportAgencyDbContext;
 
-        public AthleteAdsController(AthleteAdContext athleteAdContext, UserIdentityContext usercontext, UserManager<User> userManager, SportAgencyDbContext sportAgencyDbContext)
+        public AthleteAdsController(AthleteAdContext athleteAdContext, UserIdentityContext usercontext, UserManager<User> userManager, SportAgencyDbContext sportAgencyDbContext,SportAgencyDbContext context)
         {
             this.athleteAdContext = athleteAdContext;
             this.usercontext = usercontext;
             _userManager = userManager;
             _sportAgencyDbContext = sportAgencyDbContext;
-
+            _context = context;
         }
+
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetSortedAthleteAds(string sport, string position, string country, string foot, string dateSort)
+        {
+            IQueryable<AthleteAd> ads = _context.AthleteAds;
+
+            if (!string.IsNullOrEmpty(sport))
+            {
+                if (Enum.TryParse<Sports>(sport, out var sportEnum))
+                {
+                    ads = ads.Where(a => a.Sport == sportEnum);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(position))
+            {
+                if (Enum.TryParse<Position>(position, out var positionEnum))
+                {
+                    ads = ads.Where(a => a.Position == positionEnum);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(country))
+            {
+                if (Enum.TryParse<Country>(country, out var countryEnum))
+                {
+                    ads = ads.Where(a => a.Country == countryEnum);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(foot))
+            {
+                if (Enum.TryParse<LeftOrRightFoot>(foot, out var footEnum))
+                {
+                    ads = ads.Where(a => a.LeftOrRighFoot == footEnum);
+                }
+            }
+
+            if (dateSort == "asc")
+                ads = ads.OrderBy(ad => ad.CreatedAt);
+            else
+                ads = ads.OrderByDescending(ad => ad.CreatedAt);
+
+            return PartialView("_AthleteAdsPartial", await ads.ToListAsync());
+        }
+
+
+
+
+
+
+
+
 
         // GET: AthleteAds
         public async Task<IActionResult> Index()
