@@ -1,0 +1,14 @@
+﻿@using BusinessLayer.Entities
+@model List<ClubAd>
+
+@foreach (var ad in Model)
+{
+    <div class="ad">
+        <h3>@ad.Title</h3>
+        <p>@ad.Description</p>
+        <p>Спорт: @ad.Sport</p>
+        <p>Позиция: @ad.SearchedPosition</p>
+        <p>Кой крак: @ad.SearchedStrongFoot</p>
+        <p>Дата: @ad.CreatedAt.ToString("dd.MM.yyyy")</p>
+    </div>
+}

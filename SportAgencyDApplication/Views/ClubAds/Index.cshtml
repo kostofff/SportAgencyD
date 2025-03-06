@@ -1,11 +1,4 @@
 ﻿@model IEnumerable<BusinessLayer.Entities.ClubAd>
-
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
-
 @using BusinessLayer.Entities
 @using Microsoft.AspNetCore.Identity
     @inject SignInManager<User> SignInManager
@@ -16,89 +9,291 @@
     var roles = user != null ? await UserManager.GetRolesAsync(user) : new List<string>(); // Проверка за null
 }
 
-<h1 class="text-center mb-4">Club Ads</h1>
-@if (!roles.Contains("Athlete")) // Само ако не е Athlete, показваме бутона за нова обява
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (!roles.Contains("Athlete"))
 {
-    <div class="d-flex justify-content-between mb-3">
-        <a asp-action="Create" class="btn btn-primary">Create New</a>
+
+    <h1>Index</h1>
+
+    <label>Спорт:</label>
+    <select id="sportFilter">
+        <option value="">Всички</option>
+        <option value="Football">Футбол</option>
+        <option value="Basketball">Баскетбол</option>
+    </select>
+
+    <label>Позиция:</label>
+    <select id="positionFilter">
+        <option value="">Всички</option>
+        <option value="Forward">Нападател</option>
+        <option value="LeftWinger">Ляво Крило</option>
+    </select>
+
+    <label>Кой крак използва:</label>
+    <select id="footFilter">
+        <option value="">Всички</option>
+        <option value="LeftFoot">Ляв</option>
+        <option value="RightFoot">Десен</option>
+    </select>
+
+    <label>Сортиране по дата:</label>
+    <select id="dateSort">
+        <option value="desc">Най-нови</option>
+        <option value="asc">Най-стари</option>
+    </select>
+
+
+
+
+
+    <div id="adsContainer">
+
+        <h1 class="text-center mb-4">Club Ads</h1>
+            <div class="d-flex justify-content-between mb-3">
+                <a asp-action="Create" class="btn btn-primary">Create New</a>
+            </div>
+        <table class="table">
+            <thead>
+
+                <script>
+                    function fetchSortedAthleteAds() {
+                        var sport = document.getElementById("sportFilter").value;
+                        var position = document.getElementById("positionFilter").value;
+                        var foot = document.getElementById("footFilter").value;
+                        var dateSort = document.getElementById("dateSort").value;
+
+                        var url = `/ClubAds/GetSortedClubAds?sport=${sport}&position=${position}&foot=${foot}&dateSort=${dateSort}`;
+
+
+                        fetch(url)
+                            .then(response => response.text())
+                            .then(html => {
+                                document.getElementById("adsContainer").innerHTML = html;
+                            })
+                            .catch(error => console.error("Error:", error));
+                    }
+
+                    document.getElementById("sportFilter").addEventListener("change", fetchSortedAthleteAds);
+                    document.getElementById("positionFilter").addEventListener("change", fetchSortedAthleteAds);
+                    document.getElementById("footFilter").addEventListener("change", fetchSortedAthleteAds);
+                    document.getElementById("dateSort").addEventListener("change", fetchSortedAthleteAds);
+                </script>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sport)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SearchedPosition)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SearchedStrongFoot)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MinimumAge)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MaximumAge)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedAt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.User)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sport)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SearchedPosition)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SearchedStrongFoot)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MinimumAge)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MaximumAge)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User.Id)
+                        </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                    </tr>
+                }
+        </tbody>
+    </table>
+
+</div>
+
+    
+}
+
+
+@if (roles.Contains("Athlete"))
+{
+
+    <h1>Index</h1>
+
+    <label>Спорт:</label>
+    <select id="sportFilter">
+        <option value="">Всички</option>
+        <option value="Football">Футбол</option>
+        <option value="Basketball">Баскетбол</option>
+    </select>
+
+    <label>Позиция:</label>
+    <select id="positionFilter">
+        <option value="">Всички</option>
+        <option value="Forward">Нападател</option>
+        <option value="LeftWinger">Ляво Крило</option>
+    </select>
+
+    <label>Кой крак използва:</label>
+    <select id="footFilter">
+        <option value="">Всички</option>
+        <option value="LeftFoot">Ляв</option>
+        <option value="RightFoot">Десен</option>
+    </select>
+
+    <label>Сортиране по дата:</label>
+    <select id="dateSort">
+        <option value="desc">Най-нови</option>
+        <option value="asc">Най-стари</option>
+    </select>
+
+
+
+
+
+    <div id="adsContainer">
+
+        <h1 class="text-center mb-4">Club Ads</h1>
+        <table class="table">
+            <thead>
+
+                <script>
+                    function fetchSortedAthleteAds() {
+                        var sport = document.getElementById("sportFilter").value;
+                        var position = document.getElementById("positionFilter").value;
+                        var foot = document.getElementById("footFilter").value;
+                        var dateSort = document.getElementById("dateSort").value;
+
+                        var url = `/ClubAds/GetSortedClubAds?sport=${sport}&position=${position}&foot=${foot}&dateSort=${dateSort}`;
+
+
+                        fetch(url)
+                            .then(response => response.text())
+                            .then(html => {
+                                document.getElementById("adsContainer").innerHTML = html;
+                            })
+                            .catch(error => console.error("Error:", error));
+                    }
+
+                    document.getElementById("sportFilter").addEventListener("change", fetchSortedAthleteAds);
+                    document.getElementById("positionFilter").addEventListener("change", fetchSortedAthleteAds);
+                    document.getElementById("footFilter").addEventListener("change", fetchSortedAthleteAds);
+                    document.getElementById("dateSort").addEventListener("change", fetchSortedAthleteAds);
+                </script>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sport)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SearchedPosition)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SearchedStrongFoot)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MinimumAge)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MaximumAge)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedAt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.User)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sport)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SearchedPosition)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SearchedStrongFoot)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MinimumAge)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MaximumAge)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User.Id)
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
     </div>
+
 }
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sport)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SearchedPosition)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SearchedStrongFoot)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MinimumAge)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MaximumAge)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sport)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SearchedPosition)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SearchedStrongFoot)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MinimumAge)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaximumAge)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-                @if (!roles.Contains("Athlete")) // Само ако не е Athlete, показваме бутонite
-                {
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
-                }
-                else
-                {
-                    <td><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a></td>
-                }
-        </tr>
-}
-    </tbody>
-</table>

@@ -119,6 +119,7 @@ namespace DataLayer.AdsInterfaces
                         clubAdFromDb.User = item.User;
                     }
                 }
+                await context.SaveChangesAsync();
             }
             catch (Exception)
             {

@@ -29,6 +29,51 @@ namespace SportAgencyDApplication.Controllers
             _context = context;
         }
 
+
+
+
+        [Authorize(Roles = "Athlete,Club,Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetSortedClubAds(string sport, string position, string foot, string dateSort)
+        {
+            IQueryable<ClubAd> ads = _context.ClubAds;
+
+            if (!string.IsNullOrEmpty(sport))
+            {
+                if (Enum.TryParse<Sports>(sport, out var sportEnum))
+                {
+                    ads = ads.Where(a => a.Sport == sportEnum);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(position))
+            {
+                if (Enum.TryParse<Position>(position, out var positionEnum))
+                {
+                    ads = ads.Where(a => a.SearchedPosition == positionEnum);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(foot))
+            {
+                if (Enum.TryParse<LeftOrRightFoot>(foot, out var footEnum))
+                {
+                    ads = ads.Where(a => a.SearchedStrongFoot == footEnum);
+                }
+            }
+
+            if (dateSort == "asc")
+                ads = ads.OrderBy(ad => ad.CreatedAt);
+            else
+                ads = ads.OrderByDescending(ad => ad.CreatedAt);
+
+            return PartialView("_ClubAdsPartial", await ads.ToListAsync());
+        }
+
+
+
+
+
         // GET: ClubAds
         public async Task<IActionResult> Index()
         {
