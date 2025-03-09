@@ -38,7 +38,7 @@ namespace SportAgencyDApplication.Controllers
         {
             IQueryable<ClubAd> ads = _context.ClubAds;
 
-            if (!string.IsNullOrEmpty(sport))
+            if (!string.IsNullOrEmpty(sport) && sport != "Всички")
             {
                 if (Enum.TryParse<Sports>(sport, out var sportEnum))
                 {

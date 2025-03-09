@@ -1,0 +1,25 @@
+﻿@page
+@model CompleteClubProfileModel
+<form method="post">
+    <label>ClubName:</label>
+    <input asp-for="Input.ClubName" />
+
+    <div class="form-group">
+        <label asp-for="Input.Country"></label>
+        <select asp-for="Input.Country" asp-items="Model.Countries" class="form-control">
+            <option value="">-- Select Country --</option>
+        </select>
+        <span asp-validation-for="Input.Country" class="text-danger"></span>
+    </div>
+
+    <label>City:</label>
+    <input asp-for="Input.City" />
+
+    <label>League:</label>
+    <input asp-for="Input.League" />
+
+    <label>Website:</label>
+    <input asp-for="Input.Website" />
+
+    <button type="submit">Save</button>
+</form>

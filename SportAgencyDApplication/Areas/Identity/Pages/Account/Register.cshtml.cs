@@ -2,25 +2,18 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using BusinessLayer;
 using BusinessLayer.Entities;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 using ServiceLayer.Contexts;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace SportAgencyDApplication.Areas.Identity.Pages.Account
 {
@@ -129,7 +122,7 @@ namespace SportAgencyDApplication.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                Tuple<IdentityResult, User> result = await _userIdentityContext.CreateUserAsync(Input.Username,Input.Password,Input.Email,Input.PhoneNumber,Input.Role);
+                Tuple<IdentityResult, User> result = await _userIdentityContext.CreateUserAsync(Input.Username, Input.Password, Input.Email, Input.PhoneNumber, Input.Role);
                 if (result.Item1.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -152,7 +145,18 @@ namespace SportAgencyDApplication.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(result.Item2, isPersistent: false);
+                        // Пренасочване според роля
+                        if (Input.Role == Role.Athlete)
+                        {
+                            return RedirectToPage("/Account/CompleteAthleteProfile");
+                        }
+                        else if (Input.Role == Role.Club)
+                        {
+                            return RedirectToPage("/Account/CompleteClubProfile");
+                        }
+
                         return LocalRedirect(returnUrl);
+
                     }
                 }
                 foreach (var error in result.Item1.Errors)

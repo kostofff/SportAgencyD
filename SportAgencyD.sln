@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SportAgencyDApplication", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{A7F991B8-C02C-4ACB-8A23-5FB833775332}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeedingData", "SeedingData\SeedingData.csproj", "{353420C2-F2BE-4ED0-BF5C-7112F5A2F52A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeedingData", "SeedingData\SeedingData.csproj", "{353420C2-F2BE-4ED0-BF5C-7112F5A2F52A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
