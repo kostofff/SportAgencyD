@@ -1,4 +1,8 @@
 ﻿@using BusinessLayer.Entities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
 @model List<AthleteAd>
 
 @foreach (var ad in Model)
@@ -11,5 +15,21 @@
         <p>Държава: @ad.Country</p>
         <p>Кой крак: @ad.LeftOrRighFoot</p>
         <p>Дата: @ad.CreatedAt.ToString("dd.MM.yyyy")</p>
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            var currentUser = await UserManager.GetUserAsync(User);
+
+            if (currentUser is Athlete)
+            {
+                <a asp-action="Edit" asp-route-id="@ad.Id" class="btn btn-warning">Edit</a>
+                <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-info">Details</a>
+                <a asp-action="Delete" asp-route-id="@ad.Id" class="btn btn-danger">Delete</a>
+            }
+            else if (currentUser is Club)
+            {
+                <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-info">Details</a>
+            }
+        }
     </div>
 }
