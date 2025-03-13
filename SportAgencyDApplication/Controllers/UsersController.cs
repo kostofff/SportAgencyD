@@ -14,7 +14,7 @@ using BusinessLayer;
 
 namespace SportAgencyDApplication.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Athlete,Club")]
     public class UsersController : Controller
     {
         private readonly UserIdentityContext usercontext;
@@ -29,13 +29,13 @@ namespace SportAgencyDApplication.Controllers
 
         }
 
-        // GET: AthleteAds
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await usercontext.ReadAllUsersAsync());
         }
 
-        // GET: AthleteAds/Details/5
+        [Authorize(Roles = "Admin,Athlete,Club")]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -110,7 +110,7 @@ namespace SportAgencyDApplication.Controllers
 
 
 
-        // GET: AthleteAds/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -132,6 +132,7 @@ namespace SportAgencyDApplication.Controllers
         // POST: AthleteAds/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,UserName,Email,PhoneNumber,UserRole")] User user)
@@ -164,7 +165,7 @@ namespace SportAgencyDApplication.Controllers
             return View(user);
         }
 
-        // GET: AthleteAds/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -181,7 +182,7 @@ namespace SportAgencyDApplication.Controllers
             return View(user);
         }
 
-        // POST: AthleteAds/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string username)

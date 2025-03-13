@@ -50,8 +50,16 @@
 
 
     <div id="adsContainer">
+        @if (roles.Contains("Admin"))
+        {
+            <h1 class="text-center mb-4">Обяви на клубове</h1>
+        }
+        else
+        {
+            <h1 class="text-center mb-4">Твоите обяви</h1>
+        }
+        
 
-        <h1 class="text-center mb-4">Твоите обяви</h1>
             <div class="d-flex justify-content-between mb-3">
                 <a asp-action="Create" class="btn btn-primary">Създай нова обява</a>
             </div>
@@ -59,6 +67,7 @@
             <thead>
 
                 <script>
+
                     function fetchSortedAthleteAds() {
                         var sport = document.getElementById("sportFilter").value;
                         var position = document.getElementById("positionFilter").value;
@@ -66,7 +75,6 @@
                         var dateSort = document.getElementById("dateSort").value;
 
                         var url = `/ClubAds/GetSortedClubAds?sport=${sport}&position=${position}&foot=${foot}&dateSort=${dateSort}`;
-
 
                         fetch(url)
                             .then(response => response.text())
@@ -76,49 +84,49 @@
                             .catch(error => console.error("Error:", error));
                     }
 
-                    document.getElementById("sportFilter").addEventListener("change", fetchSortedAthleteAds);
+                    const positionsBySport = {
+                        "Football": ["GoalKeeper", "CentralBack", "LeftBack", "RightBack", "CentralDefensiveMidfielder", "CentralMidfielder",
+                            "CentralAtackingMidfielder", "LeftMidfielder", "RightMidfielder", "Striker", "LeftWinger", "RightWinger"],
+                        "Basketball": ["PointGuard", "ShootingGuard", "SmallForward"],
+                        "Volleyball": ["Setter", "OppositeHitter", "RightSideHitter", "LeftSideHitter", "MiddleBlocker", "Libero"],
+                        "HockeyOnIce": ["Goaltender", "LeftDefenseman", "RightDefenseman", "Center", "LeftWing", "RightWing"],
+                        "HockeyOnGrass": ["Goalkeeper", "CenterBack", "Fullback", "Midfielder", "Forward"]
+                    };
+
+                    function updatePositions() {
+                        var sport = document.getElementById("sportFilter").value;
+                        var positionSelect = document.getElementById("positionFilter");
+
+                        // Изчистване на позициите и добавяне на "Всички"
+                        positionSelect.innerHTML = '<option value="">Всички</option>';
+
+                        // Зареждане на съответните позиции
+                        if (sport && positionsBySport[sport]) {
+                            positionsBySport[sport].forEach(position => {
+                                var option = document.createElement("option");
+                                option.value = position;
+                                option.textContent = position;
+                                positionSelect.appendChild(option);
+                            });
+                        }
+
+                        // Изчистване на избраната позиция, ако спортът е "Всички"
+                        if (!sport) {
+                            positionSelect.value = "";
+                        }
+
+                        // Обновяване на обявите
+                        fetchSortedAthleteAds();
+                    }
+
+                    // Свързване на събитията
+                    document.getElementById("sportFilter").addEventListener("change", updatePositions);
                     document.getElementById("positionFilter").addEventListener("change", fetchSortedAthleteAds);
                     document.getElementById("footFilter").addEventListener("change", fetchSortedAthleteAds);
                     document.getElementById("dateSort").addEventListener("change", fetchSortedAthleteAds);
+
+
                 </script>
-
-                <script>
-                  const positionsBySport = {
-                      "Football": ["GoalKeeper", "CentralBack", "LeftBack", "RightBack", "CentralDefensiveMidfielder", "CentralMidfielder",
-                      "CentralAtackingMidfielder", "LeftMidfielder", "RightMidfielder", "Striker", "LeftWinger", "RightWinger"],
-                      "Basketball": ["PointGuard", "ShootingGuard", "SmallForward"],
-                      "Volleyball": ["Setter", "OppositeHitter", "RightSideHitter", "LeftSideHitter", "MiddleBlocker", "Libero"],
-                      "HockeyOnIce": ["Goaltender", "LeftDefenseman", "RightDefenseman", "Center", "LeftWing", "RightWing"],
-                      "HockeyOnGrass": ["Goalkeeper", "CenterBack", "Fullback", "Midfielder", "Forward"]
-                                           };
-
-                  function updatePositions() {
-                   var sport = document.getElementById("sportFilter").value;
-                   var positionSelect = document.getElementById("positionFilter");
-
-                   positionSelect.innerHTML = '<option value="">Всички</option>';
-
-                  if (sport && positionsBySport[sport]) {
-                      positionsBySport[sport].forEach(position => {
-                      var option = document.createElement("option");
-                      option.value = position;
-                      option.textContent = position;
-                      positionSelect.appendChild(option);
-                                                       });
-                  }
-
-                 // Автоматично извикване на fetch, след като се обнови списъкът
-                 fetchSortedAthleteAds();
-                  }
- 
-                   document.getElementById("sportFilter").addEventListener("change", function () {
-                     updatePositions();
-                   });
-
-                 document.getElementById("positionFilter").addEventListener("change", function () {
-                 fetchSortedAthleteAds(); // Това ще извиква обявите след избор на позиция
-    });
-</script>
 
 
 
@@ -242,6 +250,7 @@
             <thead>
 
                 <script>
+
                     function fetchSortedAthleteAds() {
                         var sport = document.getElementById("sportFilter").value;
                         var position = document.getElementById("positionFilter").value;
@@ -249,7 +258,6 @@
                         var dateSort = document.getElementById("dateSort").value;
 
                         var url = `/ClubAds/GetSortedClubAds?sport=${sport}&position=${position}&foot=${foot}&dateSort=${dateSort}`;
-
 
                         fetch(url)
                             .then(response => response.text())
@@ -259,49 +267,49 @@
                             .catch(error => console.error("Error:", error));
                     }
 
-                    document.getElementById("sportFilter").addEventListener("change", fetchSortedAthleteAds);
+                    const positionsBySport = {
+                        "Football": ["GoalKeeper", "CentralBack", "LeftBack", "RightBack", "CentralDefensiveMidfielder", "CentralMidfielder",
+                            "CentralAtackingMidfielder", "LeftMidfielder", "RightMidfielder", "Striker", "LeftWinger", "RightWinger"],
+                        "Basketball": ["PointGuard", "ShootingGuard", "SmallForward"],
+                        "Volleyball": ["Setter", "OppositeHitter", "RightSideHitter", "LeftSideHitter", "MiddleBlocker", "Libero"],
+                        "HockeyOnIce": ["Goaltender", "LeftDefenseman", "RightDefenseman", "Center", "LeftWing", "RightWing"],
+                        "HockeyOnGrass": ["Goalkeeper", "CenterBack", "Fullback", "Midfielder", "Forward"]
+                    };
+
+                    function updatePositions() {
+                        var sport = document.getElementById("sportFilter").value;
+                        var positionSelect = document.getElementById("positionFilter");
+
+                        // Изчистване на позициите и добавяне на "Всички"
+                        positionSelect.innerHTML = '<option value="">Всички</option>';
+
+                        // Зареждане на съответните позиции
+                        if (sport && positionsBySport[sport]) {
+                            positionsBySport[sport].forEach(position => {
+                                var option = document.createElement("option");
+                                option.value = position;
+                                option.textContent = position;
+                                positionSelect.appendChild(option);
+                            });
+                        }
+
+                        // Изчистване на избраната позиция, ако спортът е "Всички"
+                        if (!sport) {
+                            positionSelect.value = "";
+                        }
+
+                        // Обновяване на обявите
+                        fetchSortedAthleteAds();
+                    }
+
+                    // Свързване на събитията
+                    document.getElementById("sportFilter").addEventListener("change", updatePositions);
                     document.getElementById("positionFilter").addEventListener("change", fetchSortedAthleteAds);
                     document.getElementById("footFilter").addEventListener("change", fetchSortedAthleteAds);
                     document.getElementById("dateSort").addEventListener("change", fetchSortedAthleteAds);
+
+
                 </script>
-
-                <script>
-                  const positionsBySport = {
-                      "Football": ["GoalKeeper", "CentralBack", "LeftBack", "RightBack", "CentralDefensiveMidfielder", "CentralMidfielder",
-                      "CentralAtackingMidfielder", "LeftMidfielder", "RightMidfielder", "Striker", "LeftWinger", "RightWinger"],
-                      "Basketball": ["PointGuard", "ShootingGuard", "SmallForward"],
-                      "Volleyball": ["Setter", "OppositeHitter", "RightSideHitter", "LeftSideHitter", "MiddleBlocker", "Libero"],
-                      "HockeyOnIce": ["Goaltender", "LeftDefenseman", "RightDefenseman", "Center", "LeftWing", "RightWing"],
-                      "HockeyOnGrass": ["Goalkeeper", "CenterBack", "Fullback", "Midfielder", "Forward"]
-                                           };
-
-                  function updatePositions() {
-                   var sport = document.getElementById("sportFilter").value;
-                   var positionSelect = document.getElementById("positionFilter");
-
-                   positionSelect.innerHTML = '<option value="">Всички</option>';
-
-                  if (sport && positionsBySport[sport]) {
-                      positionsBySport[sport].forEach(position => {
-                      var option = document.createElement("option");
-                      option.value = position;
-                      option.textContent = position;
-                      positionSelect.appendChild(option);
-                                                       });
-                  }
-
-                 // Автоматично извикване на fetch, след като се обнови списъкът
-                 fetchSortedAthleteAds();
-                  }
- 
-                   document.getElementById("sportFilter").addEventListener("change", function () {
-                     updatePositions();
-                   });
-
-                 document.getElementById("positionFilter").addEventListener("change", function () {
-                 fetchSortedAthleteAds(); // Това ще извиква обявите след избор на позиция
-    });
-</script>
 
                 <tr>
                     <th>

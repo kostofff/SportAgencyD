@@ -31,6 +31,15 @@ namespace SportAgencyDApplication.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Admin")]
+        public IActionResult UserAds(string userId)
+        {
+            var userAds = _context.AthleteAds
+                                  .Where(a => a.UserId == userId)
+                                  .ToList();
+
+            return View(userAds);
+        }
 
 
 

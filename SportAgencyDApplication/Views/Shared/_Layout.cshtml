@@ -45,6 +45,13 @@
                         </li>
                         @if (SignInManager.IsSignedIn(User))
                         {
+                            @if (roles.Contains("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="AthleteAds" asp-action="Index">Обяви на спортисти</a>
+                                </li>
+                            }
+
                             @if (roles.Contains("Club"))
                             {
                                 <li class="nav-item">
@@ -61,6 +68,13 @@
                         }
                         @if (SignInManager.IsSignedIn(User))
                         {
+                            @if (roles.Contains("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="ClubAds" asp-action="Index">Обяви на клубове</a>
+                                </li>
+                            }
+
                             @if (roles.Contains("Club"))
                             {
                                 <li class="nav-item">

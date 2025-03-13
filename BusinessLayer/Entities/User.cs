@@ -14,6 +14,7 @@ namespace BusinessLayer.Entities
     public class User : IdentityUser
     {
         [Required]
+        [Display(Name = "Начинание")]
         public Role UserRole { get; set; }
         public virtual ICollection<AthleteAd> AthleteAds { get; set; }
         public virtual ICollection<ClubAd> ClubAds { get; set; }

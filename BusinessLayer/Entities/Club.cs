@@ -34,16 +34,24 @@ namespace BusinessLayer.Entities
     public class Club : User
     {
         #region Properties
+        [Display(Name = "Име на клуба")]
         [Required(ErrorMessage = "Club name is required!")]
         [StringLength(80, MinimumLength = 2, ErrorMessage = "Club name must be between 2 and 80!")]
         public string ClubName { get; set; }
+
+        [Display(Name = "Държава")]
         [Required(ErrorMessage = "Country is required!")]
         public Country Country { get; set; }
+
+        [Display(Name = "Град")]
         [Required(ErrorMessage = "City is required!")]
         [StringLength(50, MinimumLength = 5, ErrorMessage = "City name must be between 5 and 50!")]
         public string City { get; set; }
+
+        [Display(Name = "Лига в която се състезава")]
         [Required(ErrorMessage = "League is required!")]
         public string League { get; set; }
+        [Display(Name = "Уебсайт")]
         public string Website { get; set; }
 
         #endregion

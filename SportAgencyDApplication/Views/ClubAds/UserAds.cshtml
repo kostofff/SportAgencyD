@@ -1,0 +1,77 @@
+﻿@model IEnumerable<BusinessLayer.Entities.ClubAd>
+
+<h2>Обявите на потребителя</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sport)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SearchedPosition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SearchedStrongFoot)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinimumAge)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaximumAge)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sport)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SearchedPosition)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SearchedStrongFoot)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MinimumAge)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaximumAge)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Редактирай</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
