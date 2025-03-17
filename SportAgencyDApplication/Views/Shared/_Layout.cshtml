@@ -26,11 +26,16 @@
 
 </head>
 <body>
-
+    <div class="background-image"></div>
+    @* <div class="background-text">
+        <h1>Добре дошли в SportAgencyDApplication</h1>
+        <p>Най-доброто място за намиране на спортисти и клубове</p>
+     </div> *@
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-transparent box-shadow ">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SportAgencyDApplication</a>
+
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/logo.jpg" class="img-fluid d-block mx-auto" style="max-height: 50px;" alt="Alternate Text" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -38,30 +43,30 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Начална страница</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Поверителност</a>
                         </li>
                         @if (SignInManager.IsSignedIn(User))
                         {
                             @if (roles.Contains("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="AthleteAds" asp-action="Index">Обяви на спортисти</a>
+                                    <a class="nav-link text-white" asp-area="" asp-controller="AthleteAds" asp-action="Index">Обяви на спортисти</a>
                                 </li>
                             }
 
                             @if (roles.Contains("Club"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="AthleteAds" asp-action="Index">Прегледай обяви</a>
+                                    <a class="nav-link text-white" asp-area="" asp-controller="AthleteAds" asp-action="Index">Прегледай обяви</a>
                                 </li>
                             }
                             else if (roles.Contains("Athlete"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="AthleteAds" asp-action="Index">Създай своя обява</a>
+                                    <a class="nav-link text-white" asp-area="" asp-controller="AthleteAds" asp-action="Index">Създай своя обява</a>
                                 </li>
                             }
 
@@ -71,20 +76,20 @@
                             @if (roles.Contains("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="ClubAds" asp-action="Index">Обяви на клубове</a>
+                                    <a class="nav-link text-white" asp-area="" asp-controller="ClubAds" asp-action="Index">Обяви на клубове</a>
                                 </li>
                             }
 
                             @if (roles.Contains("Club"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="ClubAds" asp-action="Index">Създай своя обява</a>
+                                    <a class="nav-link text-white" asp-area="" asp-controller="ClubAds" asp-action="Index">Създай своя обява</a>
                                 </li>
                             }
                             else if (roles.Contains("Athlete"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="ClubAds" asp-action="Index">Прегледай обяви</a>
+                                    <a class="nav-link text-white" asp-area="" asp-controller="ClubAds" asp-action="Index">Прегледай обяви</a>
                                 </li>
                             }
 
@@ -92,7 +97,7 @@
                         @if(SignInManager.IsSignedIn(User) && roles.Contains("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Потребители</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Users" asp-action="Index">Потребители</a>
                             </li>
                         }
                     </ul>

@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -19,5 +19,24 @@ html {
 
 body {
   margin-bottom: 60px;
-  background-color: antiquewhite !important;
+  background-color: white !important;
+}
+
+/* Прави body и html да заемат цялата височина */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Избягва хоризонталния скрол */
+}
+
+/* Фонът покрива цялата страница */
+.background-image {
+    position: fixed; /* Фиксира изображението на фона */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Поставя го зад съдържанието */
+    background: url('/images/banner.jpg') no-repeat center center/cover;
 }

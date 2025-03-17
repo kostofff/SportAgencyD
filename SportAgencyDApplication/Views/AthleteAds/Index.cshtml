@@ -13,46 +13,58 @@
     ViewData["Title"] = "Athlete Ads";
 }
 
+<style>
+    body {
+        background: url('https://source.unsplash.com/1600x900/?sports') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+    }
+
+    .filter-container {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .table-container {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 20px;
+    }
+
+    select, label {
+        color: white;
+    }
+
+    select {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        margin-right: 10px;
+    }
+
+    .table thead th {
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    a.btn {
+        margin-right: 5px;
+    }
+</style>
 
 @if (!roles.Contains("Club"))
 {
         
-    <label>Спорт:</label>
-    <select id="sportFilter">
-        <option value="">Всички</option>
-        <option value="Football">Футбол</option>
-        <option value="Basketball">Баскетбол</option>
-        <option value="Volleyball">Волейбол</option>
-        <option value="HockeyOnIce">Хокей на лед</option>
-        <option value="HockeyOnGrass">Хокей на трева</option>
-    </select>
+   
 
-    <label>Позиция:</label>
-    <select id="positionFilter">
-        <option value="">--Избери спорт--</option>
-    </select>
-
-<label>Държава:</label>
-<select id="countryFilter">
-    <option value="">Всички</option>
-    <option value="Bulgaria">България</option>
-    <option value="Germany">Германия</option>
-</select>
-
-<label>Силен крак :</label>
-<select id="footFilter">
-    <option value="">Всички</option>
-    <option value="LeftFoot">Ляв</option>
-    <option value="RightFoot">Десен</option>
-</select>
-
-<label>Сортиране по дата:</label>
-<select id="dateSort">
-    <option value="desc">Най-нови</option>
-    <option value="asc">Най-стари</option>
-</select>
-
-<div id="adsContainer">
+<div id="adsContainer" class="table-container">
     <div class="container mt-4">
         
             @if (roles.Contains("Admin"))
@@ -63,15 +75,51 @@
             {
                 <h1 class="text-center mb-4">Твоите обяви</h1>
             }
-            
+
+            <div class="filter-container">
+                <label>Спорт:</label>
+                <select class="text-black" id="sportFilter" onchange="updatePositions()">
+                    <option value="">Всички</option>
+                    <option value="Football">Футбол</option>
+                    <option value="Basketball">Баскетбол</option>
+                    <option value="Volleyball">Волейбол</option>
+                    <option value="HockeyOnIce">Хокей на лед</option>
+                    <option value="HockeyOnGrass">Хокей на трева</option>
+                </select>
+
+                <label>Позиция:</label>
+                <select id="positionFilter" onchange="fetchSortedAthleteAds()">
+                    <option value="">--Избери спорт--</option>
+                </select>
+
+                <label>Държава:</label>
+                <select id="countryFilter" onchange="fetchSortedAthleteAds()">
+                    <option value="">Всички</option>
+                    <option value="Bulgaria">България</option>
+                    <option value="Germany">Германия</option>
+                </select>
+
+                <label>Силен крак:</label>
+                <select id="footFilter" onchange="fetchSortedAthleteAds()">
+                    <option value="">Всички</option>
+                    <option value="LeftFoot">Ляв</option>
+                    <option value="RightFoot">Десен</option>
+                </select>
+
+                <label>Сортиране по дата:</label>
+                <select id="dateSort" onchange="fetchSortedAthleteAds()">
+                    <option value="desc">Най-нови</option>
+                    <option value="asc">Най-стари</option>
+                </select>
+            </div>
 
             <div class="d-flex justify-content-between mb-3">
                 <a asp-action="Create" class="btn btn-primary">Създай нова обява</a>
             </div>
 
 
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
+            <table class="table table-hover">
+            <thead>
 
 
                 <script>
@@ -176,7 +224,7 @@
 
 }
 
-@if (roles.Contains("Club")) // Само ако не е Club, показваме бутонite
+@if (roles.Contains("Club")) 
 {
    
     <label>Спорт:</label>
