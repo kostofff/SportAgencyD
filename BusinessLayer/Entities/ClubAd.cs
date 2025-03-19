@@ -45,7 +45,7 @@ namespace BusinessLayer.Entities
         [StringLength(5000, MinimumLength = 20, ErrorMessage = "Description must be between 20 and 5000 words")]
         public string Description { get; set; }
 
-        [Display(Name = "Дата на създаване")]
+        [Display(Name = "Дата")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [Display(Name = "Потребител")]

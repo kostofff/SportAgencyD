@@ -58,11 +58,11 @@ namespace BusinessLayer.Entities
         [StringLength(150, MinimumLength = 1, ErrorMessage = "City name must be between 1 and 150!")]
         public string City { get; set; }
 
-        [Display(Name = "Предпочитан крак")]
+        [Display(Name = "Силен крак")]
         [Required(ErrorMessage = "Must choose between left or rigt foot!")]
         public LeftOrRightFoot LeftOrRighFoot { get; set; }
 
-        [Display(Name = "Отбори, в които е играл")]
+        [Display(Name = "Отбори")]
         [Required(ErrorMessage = "Teams that you played is required!")]
         [StringLength(5000, MinimumLength = 1, ErrorMessage = "Max 5000 symbols")]
         public string TeamsPlayed { get; set; }
@@ -71,6 +71,7 @@ namespace BusinessLayer.Entities
         [StringLength(1000, MinimumLength = 1, ErrorMessage = "Must be between 1 and 5000!")]
         public string Achievements { get; set; }
 
+        [Display(Name = "Дата")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [Display(Name = "Потребител")]

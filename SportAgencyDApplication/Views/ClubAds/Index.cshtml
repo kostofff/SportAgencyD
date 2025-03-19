@@ -13,10 +13,68 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    body {
+        background: url('https://source.unsplash.com/1600x900/?sports') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+    }
+
+    .filter-container {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .table-container {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 20px;
+    }
+
+    select, label {
+        color: black;
+    }
+
+    select {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        margin-right: 10px;
+    }
+
+    .table thead th {
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    a.btn {
+        margin-right: 5px;
+    }
+</style>
 
 @if (!roles.Contains("Athlete"))
 {
 
+    <div class="container mt-4">
+
+
+    @if (roles.Contains("Admin"))
+    {
+        <h1 class="text-center mb-4">Обяви на клубове</h1>
+    }
+    else
+    {
+        <h1 class="text-center mb-4">Твоите обяви</h1>
+    }
+
+    <div class="filter-container">
     <label>Спорт:</label>
     <select id="sportFilter">
         <option value="">Всички</option>
@@ -44,26 +102,16 @@
         <option value="desc">Най-нови</option>
         <option value="asc">Най-стари</option>
     </select>
+    </div>
+
+    <div class="d-flex justify-content-between mb-3">
+        <a asp-action="Create" class="btn btn-primary">Създай нова обява</a>
+    </div>
 
 
 
-
-
-    <div id="adsContainer">
-        @if (roles.Contains("Admin"))
-        {
-            <h1 class="text-center mb-4">Обяви на клубове</h1>
-        }
-        else
-        {
-            <h1 class="text-center mb-4">Твоите обяви</h1>
-        }
-        
-
-            <div class="d-flex justify-content-between mb-3">
-                <a asp-action="Create" class="btn btn-primary">Създай нова обява</a>
-            </div>
-        <table class="table">
+    <div id="adsContainer" class="table-container">    
+        <table class="table table-hover">
             <thead>
 
                 <script>
@@ -131,67 +179,31 @@
 
 
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Title)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Sport)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SearchedPosition)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SearchedStrongFoot)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MinimumAge)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MaximumAge)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Description)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CreatedAt)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.User)
-                    </th>
-                    <th></th>
+                    <th>@Html.DisplayNameFor(model => model.Title)</th>
+                    <th>@Html.DisplayNameFor(model => model.Sport)</th>
+                    <th>@Html.DisplayNameFor(model => model.SearchedPosition)</th>
+                    <th>@Html.DisplayNameFor(model => model.SearchedStrongFoot)</th>
+                    <th>@Html.DisplayNameFor(model => model.MinimumAge)</th>
+                    <th>@Html.DisplayNameFor(model => model.MaximumAge)</th>
+                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+                    <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
+                    <th>@Html.DisplayNameFor(model => model.User)</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Sport)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SearchedPosition)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SearchedStrongFoot)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MinimumAge)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MaximumAge)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CreatedAt)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.User.UserName)
-                        </td>
+                        <td >@Html.DisplayFor(modelItem => item.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Sport)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SearchedPosition)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SearchedStrongFoot)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MinimumAge)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MaximumAge)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td> 
+                        <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Редактирай</a>
                                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a>
@@ -201,7 +213,7 @@
                 }
         </tbody>
     </table>
-
+   </div>
 </div>
 
     
@@ -210,7 +222,19 @@
 
 @if (roles.Contains("Athlete"))
 {
+    <div class="container mt-4">
 
+
+    @if (roles.Contains("Admin"))
+    {
+        <h1 class="text-center mb-4">Обяви на клубове</h1>
+    }
+    else
+    {
+        <h1 class="text-center mb-4">Обяви на клубове</h1>
+    }
+
+        <div class="filter-container">
     <label>Спорт:</label>
     <select id="sportFilter">
         <option value="">Всички</option>
@@ -238,15 +262,11 @@
         <option value="desc">Най-нови</option>
         <option value="asc">Най-стари</option>
     </select>
+    </div>
 
 
-
-
-
-    <div id="adsContainer">
-
-        <h1 class="text-center mb-4">Обяви на клубове</h1>
-        <table class="table">
+    <div id="adsContainer" class="table-container">
+        <table class="table table-hover">
             <thead>
 
                 <script>
@@ -380,7 +400,7 @@
                 }
             </tbody>
         </table>
-
+        </div>
     </div>
 
 }

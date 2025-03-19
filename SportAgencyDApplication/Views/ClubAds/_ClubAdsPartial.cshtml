@@ -4,31 +4,99 @@
 @inject UserManager<User> UserManager
 @model List<ClubAd>
 
-@foreach (var ad in Model)
-{
-    <div class="ad">
-        <h3>@ad.Title</h3>
-        <p>@ad.Description</p>
-        <p>Спорт: @ad.Sport</p>
-        <p>Позиция: @ad.SearchedPosition</p>
-        <p>Кой крак: @ad.SearchedStrongFoot</p>
-        <p>Дата: @ad.CreatedAt.ToString("dd.MM.yyyy")</p>
+<style>
+    body {
+        background: url('https://source.unsplash.com/1600x900/?sports') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+    }
 
-        @if (SignInManager.IsSignedIn(User))
-        {
-            var currentUser = await UserManager.GetUserAsync(User);
+    .filter-container {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
 
-            if (currentUser is Club)
+    .table-container {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 20px;
+    }
+
+    select, label {
+        color: black;
+    }
+
+    select {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        margin-right: 10px;
+    }
+
+    .table thead th {
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    a.btn {
+        margin-right: 5px;
+    }
+</style>
+
+
+<div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Заглавие</th>
+                <th>Спорт</th>
+                <th>Търсена позиция</th>
+                <th>Търсен силен крак</th>
+                <th>Минимум години</th>
+                <th>Максимум години</th>
+                <th>Описание</th>
+                <th>Дата</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ad in Model)
             {
-                <a asp-action="Edit" asp-route-id="@ad.Id" class="btn btn-warning">Edit</a>
-                <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-info">Details</a>
-                <a asp-action="Delete" asp-route-id="@ad.Id" class="btn btn-danger">Delete</a>
-            }
-            else if (currentUser is Athlete)
-            {
-                <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-info">Details</a>
-            }
-        }
+                <tr>
+                <td>@ad.Title</td>
+                <td>@ad.Sport</td>               
+                <td>@ad.SearchedPosition</td>
+                <td>@ad.SearchedStrongFoot</td>
+                <td>@ad.MinimumAge</td>
+                <td>@ad.MaximumAge</td>
+                <td>@ad.Description</td>
+                <td>@ad.CreatedAt.ToString("dd.MM.yyyy")</td>
+                <td>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    var currentUser = await UserManager.GetUserAsync(User);
 
-    </div>
-}
+                    if (currentUser is Club || User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@ad.Id" class="btn btn-warning">Редактирай</a>
+                        <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-info">Прегледай</a>
+                        <a asp-action="Delete" asp-route-id="@ad.Id" class="btn btn-danger">Изтрий</a>
+                    }
+                    else if (currentUser is Athlete)
+                    {
+                        <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-info">Прегледай</a>
+                    }
+                }
+            </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
