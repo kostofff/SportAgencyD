@@ -93,12 +93,12 @@
                             if (currentUser is Athlete ||  User.IsInRole("Admin"))
                             {
                                 <a asp-action="Edit" asp-route-id="@ad.Id" class="btn btn-warning">Редактирай</a>
-                                <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-info">Прегледай</a>
+                                <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-info">Преглед</a>
                                 <a asp-action="Delete" asp-route-id="@ad.Id" class="btn btn-danger">Изтрий</a>
                             }
                             else if (currentUser is Club)
                             {
-                                <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-info">Прегледай</a>
+                                <a asp-action="Details" asp-route-id="@ad.Id" class="btn btn-info">Преглед</a>
                             }
                         }
 

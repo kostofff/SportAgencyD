@@ -40,3 +40,9 @@ html, body {
     z-index: -1; /* Поставя го зад съдържанието */
     background: url('/images/banner.jpg') no-repeat center center/cover;
 }
+
+.table {
+    --bs-table-bg: rgba(0, 0, 0, 0.3) !important; /* По-тъмна прозрачност */
+    --bs-table-border-color: #fff !important; /* Бели граници */
+    --bs-table-color: white !important; /* Светъл текст */
+}

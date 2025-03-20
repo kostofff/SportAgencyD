@@ -57,6 +57,13 @@
     a.btn {
         margin-right: 5px;
     }
+
+   /*  .country-filter {
+        width: 150px; /* Настрой според нуждите */
+        max-width: 100%; /* За адаптивност */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Ако е много дълго, да се скрива с "..." */
+    } */
 </style>
 
 @if (!roles.Contains("Club"))
@@ -88,16 +95,19 @@
                 </select>
 
                 <label>Позиция:</label>
-            <select class="text-black" id="positionFilter" onchange="fetchSortedAthleteAds()">
+            <select class="text-black" id="positionFilter" onchange="fetchSortedAthleteAds()" style="width: 150px;">
                     <option value="">--Избери спорт--</option>
                 </select>
 
-                <label>Държава:</label>
-            <select class="text-black" id="countryFilter" onchange="fetchSortedAthleteAds()">
-                    <option value="">Всички</option>
-                    <option value="Bulgaria">България</option>
-                    <option value="Germany">Германия</option>
-                </select>
+            <label>Държава:</label>
+            <select class="text-black" id="countryFilter" onchange="fetchSortedAthleteAds()" style="width: 150px;">
+                <option value="">Всички</option>
+                @foreach (var country in Enum.GetValues(typeof(Country)))
+                {
+                    <option value="@country">@country</option>
+                }
+            </select>
+
 
                 <label>Силен крак:</label>
             <select class="text-black" id="footFilter" onchange="fetchSortedAthleteAds()">
@@ -214,7 +224,7 @@
                         @* <td>@Html.DisplayFor(modelItem => item.User.UserName)</td> *@
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Редактирай</a>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед</a>
                                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Изтрий</a>
                             </td>
                     </tr>
@@ -248,12 +258,14 @@
         <option value="">--Избери спорт--</option>
     </select>
 
-<label>Държава:</label>
-<select id="countryFilter">
-    <option value="">Всички</option>
-    <option value="Bulgaria">България</option>
-    <option value="Germany">Германия</option>
-</select>
+  <label>Държава:</label>
+  <select class="text-black" id="countryFilter" onchange="fetchSortedAthleteAds()" style="width: 150px;">
+  <option value="">Всички</option>
+ @foreach (var country in Enum.GetValues(typeof(Country)))
+  {
+   <option value="@country">@country</option>
+  }
+ </select>
 
 <label>Силен крак:</label>
 <select id="footFilter">
@@ -365,7 +377,7 @@
                             <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                             <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
                             <td>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед</a>
                             </td>
                     </tr>
                 }

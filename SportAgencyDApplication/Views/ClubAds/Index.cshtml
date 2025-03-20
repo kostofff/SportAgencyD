@@ -14,6 +14,8 @@
 }
 
 <style>
+   
+
     body {
         background: url('https://source.unsplash.com/1600x900/?sports') no-repeat center center fixed;
         background-size: cover;
@@ -54,9 +56,14 @@
         background: rgba(255, 255, 255, 0.2);
     }
 
+    .table tbody td {
+        color: white;
+    }
+
     a.btn {
         margin-right: 5px;
     }
+
 </style>
 
 @if (!roles.Contains("Athlete"))
@@ -206,7 +213,7 @@
                         <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Редактирай</a>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед</a>
                                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Изтрий</a>
                             </td>
                     </tr>
@@ -394,7 +401,7 @@
                             @Html.DisplayFor(modelItem => item.User.UserName)
                         </td>
                         <td>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на обява</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед</a>
                         </td>
                     </tr>
                 }
