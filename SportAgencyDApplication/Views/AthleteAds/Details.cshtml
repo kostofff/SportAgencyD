@@ -14,162 +14,121 @@
     var roles = user != null ? await UserManager.GetRolesAsync(user) : new List<string>(); // Проверка за null
 }
 
+<style>
+
+    .details-container {
+        background: rgba(0, 0, 0, 0.6); /* Черен с 60% прозрачност */
+        border-radius: 20px; /* Заоблени ъгли */
+        padding: 30px; /* Вътрешен отстъп */
+        color: white; /* Бял текст за контраст */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Лека сянка */
+        backdrop-filter: blur(8px); /* Замъгляване на фона */
+    }
+
+    .card-body dt{
+        color: white;
+    }
+
+    .card-body dd {
+        color: white;
+    }
+
+
+</style>
+
 
 @if (!roles.Contains("Club"))
 {
 
-    <h1>Details</h1>
+    <div class="details-container"> 
+            <div class="card-header bg-primary text-white text-center rounded-3">
+                <h2>Детайли за Обява</h2>
+            </div>
+            <div class="card-body p-4">
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Title)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Title)</dd>
 
-    <div>
-        <h4>AthleteAd</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Sport)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Sport)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Position)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Position)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Country)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Country)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.City)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.City)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.LeftOrRighFoot)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.LeftOrRighFoot)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.TeamsPlayed)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.TeamsPlayed)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Achievements)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Achievements)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CreatedAt)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.User)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.User.Id)
-            </dd>
-        </dl>
-    </div>
-    <div>
-            <td>
-                <a asp-action="Edit" asp-route-id="@Model?.Id">Редактирай</a> |
-                <a asp-action="Index">Обратно към списъка с обяви</a>
-            </td>
-    </div>
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Sport)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Sport)</dd>
 
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Position)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Position)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Country)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Country)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.City)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.City)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.LeftOrRighFoot)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.LeftOrRighFoot)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TeamsPlayed)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.TeamsPlayed)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Achievements)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Achievements)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.CreatedAt)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.User)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.User.UserName)</dd>
+                </dl>
+            </div>
+
+            <div class="card-footer text-center">
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning me-3">✏️ Редактирай</a>
+                <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно към списъка с обяви</a>
+            </div>
+    </div>
 }
 
 @if (roles.Contains("Club"))
 {
-    
-    <h1>Details</h1>
 
-    <div>
-        <h4>AthleteAd</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Sport)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Sport)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Position)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Position)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Country)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Country)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.City)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.City)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.LeftOrRighFoot)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.LeftOrRighFoot)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.TeamsPlayed)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.TeamsPlayed)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Achievements)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Achievements)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CreatedAt)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.User)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.User.Id)
-            </dd>
-        </dl>
-    </div>
-    <div>
-        <td>
-            <a asp-action="Index">Обратно към списъка с обяви</a>
-        </td>
+    <div class="details-container">
+        <div class="card-header bg-primary text-white text-center rounded-3">
+            <h2>Детайли за Обява</h2>
+        </div>
+        <div class="card-body p-4">
+            <dl class="row">
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Title)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Title)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Sport)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Sport)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Position)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Position)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Country)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Country)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.City)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.City)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.LeftOrRighFoot)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.LeftOrRighFoot)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TeamsPlayed)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.TeamsPlayed)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Achievements)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Achievements)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.CreatedAt)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.User)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.User.UserName)</dd>
+            </dl>
+        </div>
+
+        <div class="card-footer text-center">
+            <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно към списъка с обяви</a>
+        </div>
     </div>
  
 }

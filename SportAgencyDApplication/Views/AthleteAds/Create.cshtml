@@ -4,6 +4,27 @@
     ViewData["Title"] = "Create";
 }
 
+<style>
+
+    .details-container {
+        background: rgba(0, 0, 0, 0.6); /* Черен с 60% прозрачност */
+        border-radius: 20px; /* Заоблени ъгли */
+        padding: 30px; /* Вътрешен отстъп */
+        color: white; /* Бял текст за контраст */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Лека сянка */
+        backdrop-filter: blur(8px); /* Замъгляване на фона */
+    }
+
+    .card-body dt {
+        color: white;
+    }
+
+    .card-body dd {
+        color: white;
+    }
+
+</style>
+
 <script>
 
     function OnLoad() {
@@ -71,75 +92,95 @@
     }
 </script>
 
-<h1>Create</h1>
+<div class="details-container">
+    <div class="card-header bg-primary text-white text-center rounded-3">
+        <h2>Създаване на обява</h2>
+    </div>
 
-<h4>AthleteAd</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    <div class="card-body p-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Title)</label>
+                <div class="col-sm-8">
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Sport" class="control-label"></label>
-                <select asp-for="Sport" id="Sport" class="form-control" asp-items="ViewBag.Sports" onchange="OnSportChange()">
-                    <option selected = "selected" value="">-- Select Sport --</option>                   
-                </select>
-                <span asp-validation-for="Sport" class="text-danger"></span>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Sport)</label>
+                <div class="col-sm-8">
+                    <select asp-for="Sport" id="Sport" class="form-control" asp-items="ViewBag.Sports" onchange="OnSportChange()">
+                        <option value="">-- Select Sport --</option>
+                    </select>
+                    <span asp-validation-for="Sport" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Position" class="control-label"></label>
-                <select asp-for="Position" id="Position" class="form-control" disabled>
-                    <option value="">-- Select Position --</option>
-                </select>
-                <span asp-validation-for="Position" class="text-danger"></span> 
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Position)</label>
+                <div class="col-sm-8">
+                    <select asp-for="Position" id="Position" class="form-control" disabled>
+                        <option value="">-- Select Position --</option>
+                    </select>
+                    <span asp-validation-for="Position" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
-                <select asp-for="Country" class="form-control" asp-items="ViewBag.Country">
-                    <option value="">-- Select Country --</option>
-                </select>
-                <span asp-validation-for="Country" class="text-danger"></span>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Country)</label>
+                <div class="col-sm-8">
+                    <select asp-for="Country" class="form-control" asp-items="ViewBag.Country">
+                        <option value="">-- Select Country --</option>
+                    </select>
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.City)</label>
+                <div class="col-sm-8">
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="LeftOrRighFoot" class="control-label"></label>
-                <select asp-for="LeftOrRighFoot" class="form-control" asp-items="ViewBag.LeftOrRightFoot">
-                    <option value="">-- Select Left or Right foot --</option>
-                </select>
-                <span asp-validation-for="LeftOrRighFoot" class="text-danger"></span>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.LeftOrRighFoot)</label>
+                <div class="col-sm-8">
+                    <select asp-for="LeftOrRighFoot" class="form-control" asp-items="ViewBag.LeftOrRightFoot">
+                        <option value="">-- Select Left or Right foot --</option>
+                    </select>
+                    <span asp-validation-for="LeftOrRighFoot" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="TeamsPlayed" class="control-label"></label>
-                <input asp-for="TeamsPlayed" class="form-control" />
-                <span asp-validation-for="TeamsPlayed" class="text-danger"></span>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.TeamsPlayed)</label>
+                <div class="col-sm-8">
+                    <input asp-for="TeamsPlayed" class="form-control" />
+                    <span asp-validation-for="TeamsPlayed" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Achievements" class="control-label"></label>
-                <input asp-for="Achievements" class="form-control" />
-                <span asp-validation-for="Achievements" class="text-danger"></span>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Achievements)</label>
+                <div class="col-sm-8">
+                    <input asp-for="Achievements" class="form-control" />
+                    <span asp-validation-for="Achievements" class="text-danger"></span>
+                </div>
             </div>
 
             <input type="hidden" asp-for="UserId" />
 
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">💾 Създай</button>
+                <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

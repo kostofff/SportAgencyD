@@ -25,12 +25,16 @@
         border-radius: 20px;
         padding: 20px;
         margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Лека сянка */
+        backdrop-filter: blur(8px); /* Замъгляване на фона */
     }
 
     .table-container {
         background: rgba(0, 0, 0, 0.5);
         border-radius: 20px;
         padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Лека сянка */
+        backdrop-filter: blur(8px); /* Замъгляване на фона */
     }
 
     select, label {
@@ -58,20 +62,17 @@
         margin-right: 5px;
     }
 
-   /*  .country-filter {
-        width: 150px; /* Настрой според нуждите */
-        max-width: 100%; /* За адаптивност */
+    .country-filter {
+        width: 150px; Настрой според нуждите
+        max-width: 100%;/*  За адаптивност */
         overflow: hidden;
-        text-overflow: ellipsis; /* Ако е много дълго, да се скрива с "..." */
-    } */
+        text-overflow: ellipsis; /* Ако е много дълго, да се скрива с "..."*/
+    }
 </style>
 
 @if (!roles.Contains("Club"))
 {
         
-   
-
-
     <div class="container mt-4">
         
             @if (roles.Contains("Admin"))
