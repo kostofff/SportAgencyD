@@ -64,8 +64,17 @@
 
             <div class="row mb-3">
                 <div class="text-center" style="padding-top: 40px;">
-                    <button type="submit" value="Save" class="btn btn-primary">💾 Запази</button>
-                    <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно към списъка с потребитекли</a>
+                    @if (User.IsInRole("Athlete") || User.IsInRole("Club"))
+                    {
+                        <button type="submit" value="Save" class="btn btn-primary">💾 Запази</button>
+                        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">⬅️ Обратно към профила</a>
+
+                    }
+                    else
+                    {
+                        <button type="submit" value="Save" class="btn btn-primary">💾 Запази</button>
+                        <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно към списъка с потребитекли</a>
+                    }                   
                 </div>
             </div>
         </form>

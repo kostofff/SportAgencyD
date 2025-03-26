@@ -110,7 +110,7 @@ namespace SportAgencyDApplication.Controllers
 
 
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Athlete,Club")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -132,7 +132,7 @@ namespace SportAgencyDApplication.Controllers
         // POST: AthleteAds/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Athlete,Club")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,UserName,Email,PhoneNumber,UserRole")] User user)
@@ -159,7 +159,7 @@ namespace SportAgencyDApplication.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id = user.Id });
             }
             await LoadNavigationalProperties();
             return View(user);

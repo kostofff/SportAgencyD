@@ -38,8 +38,14 @@
     }
 
     select, label {
-        color: black;
+        color: white;
     }
+
+        select option {
+            background-color: #555; /* Сиво */
+            color: white; /* Бял текст */
+        }
+
 
     select {
         background: rgba(255, 255, 255, 0.2);
@@ -86,7 +92,7 @@
 
             <div class="filter-container">
                 <label>Спорт:</label>
-                <select class="text-black" id="sportFilter" onchange="updatePositions()">
+                <select class="text-white" id="sportFilter" onchange="updatePositions()">
                     <option value="">Всички</option>
                     <option value="Football">Футбол</option>
                     <option value="Basketball">Баскетбол</option>
@@ -96,12 +102,12 @@
                 </select>
 
                 <label>Позиция:</label>
-            <select class="text-black" id="positionFilter" onchange="fetchSortedAthleteAds()" style="width: 150px;">
+            <select class="text-white" id="positionFilter" onchange="fetchSortedAthleteAds()" style="width: 150px;">
                     <option value="">--Избери спорт--</option>
                 </select>
 
             <label>Държава:</label>
-            <select class="text-black" id="countryFilter" onchange="fetchSortedAthleteAds()" style="width: 150px;">
+            <select class="text-white" id="countryFilter" onchange="fetchSortedAthleteAds()" style="width: 150px;">
                 <option value="">Всички</option>
                 @foreach (var country in Enum.GetValues(typeof(Country)))
                 {
@@ -111,14 +117,14 @@
 
 
                 <label>Силен крак:</label>
-            <select class="text-black" id="footFilter" onchange="fetchSortedAthleteAds()">
+            <select class="text-white" id="footFilter" onchange="fetchSortedAthleteAds()">
                     <option value="">Всички</option>
                     <option value="LeftFoot">Ляв</option>
                     <option value="RightFoot">Десен</option>
                 </select>
 
                 <label>Сортиране по дата:</label>
-            <select class="text-black" id="dateSort" onchange="fetchSortedAthleteAds()">
+            <select class="text-white" id="dateSort" onchange="fetchSortedAthleteAds()">
                     <option value="desc">Най-нови</option>
                     <option value="asc">Най-стари</option>
                 </select>

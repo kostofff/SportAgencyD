@@ -76,7 +76,7 @@
         </div>
 
         <div class="card-footer text-center">
-            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning me-3">✏️ Редактирай</a> |
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning me-3">✏️ Редактирай</a>
             <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно към списъка с обяви</a>
         </div>
     </div>
@@ -120,9 +120,9 @@
                 <dd class="col-sm-10">@Html.DisplayFor(model => model.User.UserName)</dd>
             </dl>
         </div>
-
         <div class="card-footer text-center">
             <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно към списъка с обяви</a>
+            <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.UserId" class="btn btn-secondary">👤 Виж профила на потребителя</a>
         </div>
     </div>
 
