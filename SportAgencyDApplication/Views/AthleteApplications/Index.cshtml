@@ -1,0 +1,125 @@
+﻿@model IEnumerable<BusinessLayer.Entities.AthletesApplication>
+@using BusinessLayer.Entities
+@using Microsoft.AspNetCore.Identity
+        @inject SignInManager<User> SignInManager
+        @inject UserManager<User> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var roles = user != null ? await UserManager.GetRolesAsync(user) : new List<string>(); // Проверка за null
+}
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    body {
+        background: url('https://source.unsplash.com/1600x900/?sports') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+    }
+
+    .filter-container {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Лека сянка */
+        backdrop-filter: blur(8px); /* Замъгляване на фона */
+    }
+
+    .table-container {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Лека сянка */
+        backdrop-filter: blur(8px); /* Замъгляване на фона */
+    }
+
+    select, label {
+        color: white;
+    }
+
+        select option {
+            background-color: #555; /* Сиво */
+            color: white; /* Бял текст */
+        }
+
+
+    select {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        margin-right: 10px;
+    }
+
+    .table thead th {
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    a.btn {
+        margin-right: 5px;
+    }
+
+    .country-filter {
+        width: 150px; Настрой според нуждите
+        max-width: 100%;/*  За адаптивност */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Ако е много дълго, да се скрива с "..."*/
+    }
+</style>
+
+<div id="adsContainer" class="table-container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Athlete)</th>
+                <th>@Html.DisplayNameFor(model => model.Club)</th>
+                <th>@Html.DisplayNameFor(model => model.ClubAd)</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+                <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Athlete.UserName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Club.UserName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ClubAd.Title)</td>
+                    <td>
+                        @if (item.Status == ApplicationStatus.Pending)
+                        {
+                            <span class="badge bg-warning">В очакване</span>
+                        }
+                        else if (item.Status == ApplicationStatus.Accepted)
+                        {
+                            <span class="badge bg-success">Прието</span>
+                        }
+                        else if (item.Status == ApplicationStatus.Rejected)
+                        {
+                            <span class="badge bg-danger">Отхвърлено</span>
+                        }
+                    </td>
+                    <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <form asp-controller="AthleteApplications" asp-action="ChangeStatus" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.ApplicationId" />
+                            <input type="hidden" name="newStatus" value="Accepted" />
+                            <button type="submit" class="btn btn-success">✅ Одобри</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

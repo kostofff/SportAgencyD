@@ -66,9 +66,41 @@ namespace DataLayer
                       .HasForeignKey(a => a.ClubAdId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
+
+            modelBuilder.Entity<ClubsApplication>(entity =>
+            {
+                entity.HasKey(a => a.ApplicationId);
+
+                entity.Property(a => a.ApplicationId)
+                      .IsRequired();
+
+                entity.Property(a => a.Status)
+                      .IsRequired();
+
+                entity.Property(a => a.CreatedAt)
+                      .IsRequired();
+
+                entity.HasOne(a => a.Athlete)
+                      .WithMany()
+                      .HasForeignKey(a => a.AthleteId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(a => a.Club)
+                      .WithMany()
+                      .HasForeignKey(a => a.ClubId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(a => a.AthleteAd)
+                      .WithMany()
+                      .HasForeignKey(a => a.AthleteAdId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
         }
 
         public DbSet<AthleteAd> AthleteAds { get; set; }
         public DbSet<ClubAd> ClubAds { get; set; }
+        public DbSet<AthletesApplication> AthletesApplication { get; set; }
+
+        public DbSet<ClubsApplication> ClubsApplication { get; set; }
     }
 }

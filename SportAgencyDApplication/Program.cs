@@ -24,6 +24,8 @@ builder.Services.AddScoped<AthleteAdContext>();
 builder.Services.AddScoped<ClubAdRepository>();
 builder.Services.AddScoped<ClubAdContext>();
 
+//builder.Services.AddScoped<AthletesApplicationController>();
+
 builder.Services.AddScoped<UserManager<User>>();
 builder.Services.AddScoped<SignInManager<User>>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();

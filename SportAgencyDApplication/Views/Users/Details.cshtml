@@ -81,7 +81,15 @@
     {
         <div class="details-container">
             <div class="card-header bg-primary text-white text-center rounded-3">
-                <h2>Детайли за Потребител</h2>
+                @if ((User.IsInRole("Athlete") && Model.UserRole == BusinessLayer.Role.Club) ||
+               (User.IsInRole("Club") && Model.UserRole == BusinessLayer.Role.Athlete))
+                {
+                    <h2>Детайли за потребителя</h2>
+                }
+                else
+                {
+                    <h2>Профил</h2>
+                }
             </div>
             <div class="card-body p-4">
                 <dl class="row">

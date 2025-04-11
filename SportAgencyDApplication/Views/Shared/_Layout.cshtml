@@ -94,6 +94,31 @@
                             }
 
                         }
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            @if (roles.Contains("Club"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-controller="AthleteApplications" asp-action="Index">Кандидатствания</a>
+                                </li>
+                            }
+                            @if (roles.Contains("Athlete"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-controller="ClubApplications" asp-action="Index">Кандидатствания</a>
+                                </li>
+                            }
+                            else if (roles.Contains("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-controller="AthleteApplications" asp-action="Index">Кандидатствания на клубове</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-controller="ClubApplications" asp-action="Index">Кандидатствания на Атлети</a>
+                                </li>
+                            }
+
+                        }
                         @if(SignInManager.IsSignedIn(User) && roles.Contains("Admin"))
                         {
                             <li class="nav-item">

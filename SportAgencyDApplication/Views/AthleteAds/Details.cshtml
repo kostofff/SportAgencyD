@@ -128,8 +128,10 @@
 
         <div class="card-footer text-center">
             <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно към списъка с обяви</a>
-            <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.UserId" class="btn btn-secondary">👤 Виж профила на потребителя</a>
+            <form asp-action="Apply" asp-controller="ClubApplications" method="post">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-success">✅ Кандидатствай</button>
+            </form>
         </div>
     </div>
- 
 }

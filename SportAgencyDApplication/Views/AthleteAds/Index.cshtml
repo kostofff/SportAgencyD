@@ -249,44 +249,45 @@
 
         <h1 class="text-center mb-4">Обяви на атлети</h1>
 
-    <div class="filter-container">
-    <label>Спорт:</label>
-    <select id="sportFilter">
-        <option value="">Всички</option>
-        <option value="Football">Футбол</option>
-        <option value="Basketball">Баскетбол</option>
-        <option value="Volleyball">Волейбол</option>
-        <option value="HockeyOnIce">Хокей на лед</option>
-        <option value="HockeyOnGrass">Хокей на трева</option>
-    </select>
+        <div class="filter-container">
+            <label>Спорт:</label>
+            <select class="text-white" id="sportFilter" onchange="updatePositions()">
+                <option value="">Всички</option>
+                <option value="Football">Футбол</option>
+                <option value="Basketball">Баскетбол</option>
+                <option value="Volleyball">Волейбол</option>
+                <option value="HockeyOnIce">Хокей на лед</option>
+                <option value="HockeyOnGrass">Хокей на трева</option>
+            </select>
 
-    <label>Позиция:</label>
-    <select id="positionFilter">
-        <option value="">--Избери спорт--</option>
-    </select>
+            <label>Позиция:</label>
+            <select class="text-white" id="positionFilter" onchange="fetchSortedAthleteAds()" style="width: 150px;">
+                <option value="">--Избери спорт--</option>
+            </select>
 
-  <label>Държава:</label>
-  <select class="text-black" id="countryFilter" onchange="fetchSortedAthleteAds()" style="width: 150px;">
-  <option value="">Всички</option>
- @foreach (var country in Enum.GetValues(typeof(Country)))
-  {
-   <option value="@country">@country</option>
-  }
- </select>
+            <label>Държава:</label>
+            <select class="text-white" id="countryFilter" onchange="fetchSortedAthleteAds()" style="width: 150px;">
+                <option value="">Всички</option>
+                @foreach (var country in Enum.GetValues(typeof(Country)))
+                {
+                    <option value="@country">@country</option>
+                }
+            </select>
 
-<label>Силен крак:</label>
-<select id="footFilter">
-    <option value="">Всички</option>
-    <option value="LeftFoot">Ляв</option>
-    <option value="RightFoot">Десен</option>
-</select>
 
-<label>Сортиране по дата:</label>
-<select id="dateSort">
-    <option value="desc">Най-нови</option>
-    <option value="asc">Най-стари</option>
-</select>
-</div>
+            <label>Силен крак:</label>
+            <select class="text-white" id="footFilter" onchange="fetchSortedAthleteAds()">
+                <option value="">Всички</option>
+                <option value="LeftFoot">Ляв</option>
+                <option value="RightFoot">Десен</option>
+            </select>
+
+            <label>Сортиране по дата:</label>
+            <select class="text-white" id="dateSort" onchange="fetchSortedAthleteAds()">
+                <option value="desc">Най-нови</option>
+                <option value="asc">Най-стари</option>
+            </select>
+        </div>
 
         <div id="adsContainer" class="table-container">
         <table class="table table-hover">
