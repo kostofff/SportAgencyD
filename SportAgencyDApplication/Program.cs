@@ -24,6 +24,8 @@ builder.Services.AddScoped<AthleteAdContext>();
 builder.Services.AddScoped<ClubAdRepository>();
 builder.Services.AddScoped<ClubAdContext>();
 
+builder.Services.AddScoped<IApplicationService, ApplicationService>();
+
 //builder.Services.AddScoped<AthletesApplicationController>();
 
 builder.Services.AddScoped<UserManager<User>>();

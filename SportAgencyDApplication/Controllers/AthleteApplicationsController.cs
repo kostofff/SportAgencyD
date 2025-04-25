@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SportAgencyDApplication.Services;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace SportAgencyDApplication.Controllers
@@ -12,48 +13,28 @@ namespace SportAgencyDApplication.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SportAgencyDbContext _context;
+        private readonly IApplicationService _applicationService;
 
-        public AthleteApplicationsController(UserManager<User> userManager, SportAgencyDbContext context)
+        public AthleteApplicationsController(UserManager<User> userManager, SportAgencyDbContext context, IApplicationService applicationService)
         {
             _context = context;
             _userManager = userManager;
+            _applicationService = applicationService;
         }
 
         [Authorize(Roles = "Athlete")]
         [Route("[controller]/[action]")]
         [HttpPost]
-        public async Task<IActionResult> Apply(string id) // <-- получавай само ID-то на обявата
+        public async Task<IActionResult> Apply(string id)
         {
             var userId = _userManager.GetUserId(User);
+            var success = await _applicationService.ApplyAsync(id, userId);
 
-            var ad = await _context.ClubAds
-                .FirstOrDefaultAsync(a => a.Id == id); // <-- зареждаш обявата от базата
-
-            if (ad == null)
+            if (!success)
             {
-                return NotFound();
+                TempData["Error"] = "Вече сте кандидатствали или обявата не съществува.";
+                return RedirectToAction("Details", "ClubAds", new { id });
             }
-
-            var existingApplication = await _context.AthletesApplication
-                .FirstOrDefaultAsync(a => a.AthleteId == userId && a.ClubAdId == ad.Id);
-
-            if (existingApplication != null)
-            {
-                TempData["Error"] = "Вече сте кандидатствали за тази обява.";
-                return RedirectToAction("Details", "ClubAds", new { id = ad.Id });
-            }
-
-            var application = new AthletesApplication
-            {
-                Status = ApplicationStatus.Pending,
-                CreatedAt = DateTime.UtcNow,
-                ClubId = ad.UserId,
-                ClubAdId = ad.Id,
-                AthleteId = userId
-            };
-
-            _context.AthletesApplication.Add(application);
-            await _context.SaveChangesAsync();
 
             return RedirectToAction("ApplicationSuccess");
         }

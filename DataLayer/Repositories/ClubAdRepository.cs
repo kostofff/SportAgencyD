@@ -12,7 +12,7 @@ namespace DataLayer.AdsInterfaces
             this.context = context;
         }
         #region CRUD
-        public async Task CreateAdAsync(ClubAd item)
+        public async Task CreateAdAsync(ClubAd item) // Creating ad method
         {
             try
             {
@@ -30,7 +30,7 @@ namespace DataLayer.AdsInterfaces
             }
         }
 
-        public async Task DeleteAdAsync(string key)
+        public async Task DeleteAdAsync(string key) // Deleting ad method
         {
             try
             {
@@ -49,7 +49,7 @@ namespace DataLayer.AdsInterfaces
             }
         }
 
-        public async Task<ClubAd> ReadAdAsync(string key, bool navigationalProporties = false, bool isReadOnly = true)
+        public async Task<ClubAd> ReadAdAsync(string key, bool navigationalProporties = false, bool isReadOnly = true) // Reading single ad method
         {
             try
             {
@@ -71,7 +71,7 @@ namespace DataLayer.AdsInterfaces
             }
         }
 
-        public async Task<ICollection<ClubAd>> ReadAllAdsAsync(bool navigationalProporties = false, bool isReadOnly = true)
+        public async Task<ICollection<ClubAd>> ReadAllAdsAsync(bool navigationalProporties = false, bool isReadOnly = true) // Reading all ads method
         {
             try
             {
@@ -94,7 +94,7 @@ namespace DataLayer.AdsInterfaces
             }
         }
 
-        public async Task UpdateAdAsync(ClubAd item, bool navigationalProporties = false)
+        public async Task UpdateAdAsync(ClubAd item, bool navigationalProporties = false) // Updating ad method
         {
             try
             {

@@ -115,7 +115,7 @@
             <div class="row mb-3">
                 <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Sport)</label>
                 <div class="col-sm-8">
-                    <select asp-for="Sport" id="Sport" class="form-control" asp-items="ViewBag.Sports" onchange="OnSportChange()">
+                    <select asp-for="Sport" id="Sport" class="form-control" asp-items="@(new SelectList(ViewBag.Sports, "Value", "Text", ""))" onchange="OnSportChange()">
                         <option value="">-- Select Sport --</option>
                     </select>
                     <span asp-validation-for="Sport" class="text-danger"></span>

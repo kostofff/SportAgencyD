@@ -44,7 +44,7 @@ namespace DataLayer.Repositories
 
         #region CRUD
         public async Task<Tuple<IdentityResult, User>> CreateUserAsync(string username, string password, string email
-            , string phoneNumber, Role role)
+            , string phoneNumber, Role role) // Creating user method
         {
             try
             {
@@ -105,7 +105,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public async Task<User> LogInUserAsync(string username, string password)
+        public async Task<User> LogInUserAsync(string username, string password) // Log in user method
         {
             try
             {
@@ -136,7 +136,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public async Task<User> ReadUserAsync(string key, bool NavigationalProporties = false)
+        public async Task<User> ReadUserAsync(string key, bool NavigationalProporties = false) // Reading single user method
         {
 
             try
@@ -160,7 +160,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public async Task<ICollection<User>> ReadAllUsersAsync(bool NavigationalProporties = false)
+        public async Task<ICollection<User>> ReadAllUsersAsync(bool NavigationalProporties = false) // Reading all users method
         {
 
             try
@@ -184,7 +184,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public async Task UpdateUserAsync(string id, string username, string phoneNumber, Role newRole)
+        public async Task UpdateUserAsync(string id, string username, string phoneNumber, Role newRole) // Updating user method
         {
             try
             {
@@ -210,7 +210,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public async Task DeleteUserByNameAsync(string username)
+        public async Task DeleteUserByNameAsync(string username) // Deleting user method
         {
             try
             {
@@ -229,7 +229,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public async Task<User> FindUserByNameAsync(string username)
+        public async Task<User> FindUserByNameAsync(string username) // Finding user by name method
         {
             try
             {

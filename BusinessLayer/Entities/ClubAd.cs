@@ -27,9 +27,9 @@ namespace BusinessLayer.Entities
         [Required(ErrorMessage = "Must have searched position!")]
         public Position SearchedPosition { get; set; }
 
-        [Display(Name = "Търсен силен крак")]
+        [Display(Name = "Търсен силен крак/ръка")]
         [Required(ErrorMessage = "Must have searched strong foot!")]
-        public LeftOrRightFoot SearchedStrongFoot { get; set; }
+        public LeftOrRightFoot? SearchedStrongFoot { get; set; }
 
         [Display(Name = "Минимум години")]
         [Required(ErrorMessage = "Minimum age is required!")]
@@ -54,6 +54,7 @@ namespace BusinessLayer.Entities
         [Display(Name = "Потребител")]
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }
+
         #endregion
 
         #region Constructor

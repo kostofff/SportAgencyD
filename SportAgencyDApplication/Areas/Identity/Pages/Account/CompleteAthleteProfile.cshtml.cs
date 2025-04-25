@@ -17,7 +17,6 @@ public class CompleteAthleteProfileModel : PageModel
         _userManager = userManager;
         _context = context;
     }
-
     [BindProperty]
     public InputModel Input { get; set; }
 
@@ -25,33 +24,28 @@ public class CompleteAthleteProfileModel : PageModel
     {
         [Required]
         public string FirstName { get; set; }
-
         [Required]
         public string LastName { get; set; }
-
         [Required]
         public int Age { get; set; }
     }
-
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
         {
             return Page();
         }
-
-        // ???????? ??????? ??????????
+        // Get the current user
         var user = await _userManager.GetUserAsync(User);
 
         if (user == null)
         {
             return NotFound("User not found.");
         }
-
-        // ??????????? ???? ? Athlete
+        // Check if the user is an athlete
         if (user.UserRole == Role.Athlete)
         {
-            // ???????? user ??? Athlete (???????? ???? ? ???? ? ??? ????? ? ????????? Users)
+            // Update the athlete's profile
             var athlete = user as Athlete;
             if (athlete != null)
             {

@@ -34,6 +34,7 @@ namespace BusinessLayer.Entities
     public class Club : User
     {
         #region Properties
+
         [Display(Name = "Име на клуба")]
         [Required(ErrorMessage = "Club name is required!")]
         [StringLength(80, MinimumLength = 2, ErrorMessage = "Club name must be between 2 and 80!")]

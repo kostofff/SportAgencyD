@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "За нас";
+}
+
+<div class="container py-5 text-white">
+    <div class="about-bg shadow-lg p-5 rounded fade-in">
+        <h1 class="display-5 fw-bold mb-4">
+            <i class="fas fa-bullseye text-warning me-2"></i>@ViewData["Title"]
+        </h1>
+        <p class="lead">
+            Нашата платформа има за цел да предостави иновативно и достъпно място за спортни клубове, състезатели и почитатели на спорта.
+        </p>
+        <p>
+            Приложението ще служи като посредник между младите атлети и клубните организации, които търсят нови попълнения, като осигурява интуитивна платформа за комуникация между тях,
+            чрез създаването на свой собствен профил и публикуването на обяви, на които може да се кандидатства и да бъде осъществена връзката.
+        </p>
+        <p>
+            Вярваме, че спортът не е просто състезание, а култура, ценности и вдъхновение. Създадохме този сайт, за да подкрепим спорта във всичките му форми и да дадем глас на тези, които го правят възможен.
+        </p>
+        <p>
+            Добре дошли в нашата общност – място за спорт, страст и развитие!
+        </p>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #1a1a1a;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .about-bg {
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 16px;
+    }
+
+    .fade-in {
+        animation: fadeIn 1s ease-in;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @@media (max-width: 768px) {
+        .about-bg {
+            padding: 2rem 1rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+        }
+    }
+</style>

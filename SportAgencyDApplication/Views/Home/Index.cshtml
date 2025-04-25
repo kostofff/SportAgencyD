@@ -1,32 +1,82 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Начало";
 }
 
-<div class="text-center">
-    <h1 class="fw-bold text-white">Спортна агенция
-        <small class="text-body-secondary text-white">ДК</small>
-    </h1>
+<div class="container py-5 text-center text-white">
+    <div class="home-bg shadow-lg p-5 rounded fade-in">
+        <h1 class="display-4 fw-bold">
+            Добре дошли в <span class="text-warning">Спортна агенция ДК</span>
+        </h1>
+        <p class="lead">Платформа, подкрепяща спортни клубове и спортисти.</p>
+        <a class="btn btn-outline-warning btn-lg mt-3" asp-area="" asp-controller="Home" asp-action="About">
+            Научи повече
+        </a>
+    </div>
 </div>
 
-<div class="content-section">
-    <h2 class="text-white border-bottom" >Отбори, които използват нашите услуги</h2>
-    <img src="~/images/botevLogo.png" class="image-fluid" alt="Botev" />
-    <img src="~/images/ludogoretsLogo.png" class="image-fluid" alt="Ludogorets" />
-    <img src="~/images/milanLogo.png" class="image-fluid" alt="Milan" />
+<div class="container text-center my-5">
+    <h2 class="text-white border-bottom pb-3 mb-4">Отбори, които ни се довериха</h2>
+    <div class="row justify-content-center">
+        <div class="col-6 col-md-2 mb-4" data-aos="fade-up"><img src="~/images/milanLogo.png" class="img-fluid team-logo" alt="Milan"></div>
+        <div class="col-6 col-md-2 mb-4" data-aos="fade-up"><img src="~/images/botevLogo.png" class="img-fluid team-logo" alt="Botev"></div>
+        <div class="col-6 col-md-2 mb-4" data-aos="fade-up"><img src="~/images/ludogoretsLogo.png" class="img-fluid team-logo" alt="Ludogorets"></div>
+        <div class="col-6 col-md-2 mb-4" data-aos="fade-up"><img src="~/images/balkanLogo.png" class="img-fluid team-logo" alt="Balkan"></div>
+        <div class="col-6 col-md-2 mb-4" data-aos="fade-up"><img src="~/images/maritzaLogo.png" class="img-fluid team-logo" alt="Maritza"></div>
+        <div class="col-6 col-md-2 mb-4" data-aos="fade-up"><img src="~/images/irbisLogo.png" class="img-fluid team-logo" alt="Irbis-Skeit"></div>
+        <div class="col-6 col-md-2 mb-4" data-aos="fade-up"><img src="~/images/klimentLogo.png" class="img-fluid team-logo" alt="Sv-Kliment"></div>
+    </div>
 </div>
 
 <style>
-    .content-section {
-       padding-top: 400px; /* Разстояние отгоре */
-       padding-left: 600px; /* Разстояние отляво */
-        text-align:  center; /* Центриране на съдържанието */
+    body {
+        background-color: #1a1a1a;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-        .content-section img {
-            max-width: 150px; /* Максимална ширина */
-            height: auto; /* Автоматична височина */
-            margin: 20px; /* Разстояние между логата */
+    .home-bg {
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 16px;
+    }
+
+    .team-logo {
+        width: 160px;
+        height: 160px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        padding: 10px;
+        border-radius: 12px;
+        background-color: rgba(255, 255, 255, 0.03);
+    }
+
+    .team-logo:hover {
+        transform: scale(1.1);
+    }
+
+    h2 {
+        border-color: #ffc107;
+    }
+
+    .fade-in {
+        animation: fadeIn 1s ease-in;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @@media (max-width: 768px) {
+        .team-logo {
+            width: 100px;
+            height: 100px;
         }
 
+        h1 {
+            font-size: 2rem;
+        }
 
+        .home-bg {
+            padding: 2rem 1rem;
+        }
+    }
 </style>

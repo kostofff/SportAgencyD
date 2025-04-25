@@ -37,6 +37,8 @@
         padding: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Лека сянка */
         backdrop-filter: blur(8px); /* Замъгляване на фона */
+        overflow-x: auto; /* ново */
+        max-width: 100%; /* ново */
     }
 
     select, label {
@@ -59,6 +61,17 @@
     .table thead th {
         background: rgba(0, 0, 0, 0.8);
         color: white;
+        max-width: 120px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
+
+    .table tbody td {
+        max-width: 120px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
     }
 
     .table tbody tr:hover {
@@ -106,7 +119,7 @@
         <option value="">--Избери спорт--</option>
     </select>
 
-    <label>Кой крак използва:</label>
+    <label>Търсен силен крак/ръка:</label>
     <select id="footFilter">
         <option value="">Всички</option>
         <option value="LeftFoot">Ляв</option>
@@ -126,7 +139,7 @@
 
 
 
-    <div id="adsContainer" class="table-container">    
+    <div id="adsContainer" class="table-responsive table-container">    
         <table class="table table-hover">
             <thead>
 
@@ -264,7 +277,7 @@
         <option value="">--Избери спорт--</option>
     </select>
 
-    <label>Кой крак използва:</label>
+    <label>Търсен силен крак/ръка:</label>
     <select id="footFilter">
         <option value="">Всички</option>
         <option value="LeftFoot">Ляв</option>
@@ -279,7 +292,7 @@
     </div>
 
 
-    <div id="adsContainer" class="table-container">
+    <div id="adsContainer" class="table-responsive table-container">
         <table class="table table-hover">
             <thead>
 

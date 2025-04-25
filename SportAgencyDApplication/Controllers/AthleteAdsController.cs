@@ -164,7 +164,8 @@ namespace SportAgencyDApplication.Controllers
 
             var model = new AthleteAd
             {
-                UserId = userId // Автоматично присвояване на ID-то
+                UserId = userId, // Автоматично присвояване на ID-то
+                Country = null
             };
 
             ViewBag.Sports = new SelectList(Enum.GetValues(typeof(Sports)));

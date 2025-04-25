@@ -23,8 +23,8 @@ namespace BusinessLayer.Entities
     }
     public enum LeftOrRightFoot
     {
-        LeftFoot,
-        RightFoot
+        Left,
+        Right
     }
     public enum Sports
     {
@@ -33,6 +33,7 @@ namespace BusinessLayer.Entities
     public class AthleteAd
     {
         #region Properties
+
         [Key]
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
@@ -51,16 +52,16 @@ namespace BusinessLayer.Entities
 
         [Display(Name = "Държава")]
         [Required(ErrorMessage = "Country is required!")]
-        public Country Country { get; set; }
+        public Country? Country { get; set; }
 
         [Display(Name = "Град")]
         [Required(ErrorMessage = "City is required!")]
         [StringLength(150, MinimumLength = 1, ErrorMessage = "City name must be between 1 and 150!")]
         public string City { get; set; }
 
-        [Display(Name = "Силен крак")]
+        [Display(Name = "Силен крак/ръка")]
         [Required(ErrorMessage = "Must choose between left or rigt foot!")]
-        public LeftOrRightFoot LeftOrRighFoot { get; set; }
+        public LeftOrRightFoot? LeftOrRighFoot { get; set; }
 
         [Display(Name = "Отбори")]
         [Required(ErrorMessage = "Teams that you played is required!")]

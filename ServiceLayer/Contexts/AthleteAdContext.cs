@@ -18,26 +18,32 @@ namespace ServiceLayer.Contexts
         }
 
         #region Operations
+
+        //Create method
         public async Task CreateAdAsync(AthleteAd item)
         { 
          await repository.CreateAdAsync(item);
         }
 
+        //Read method
         public async Task<AthleteAd> ReadAdAsync(string key, bool navigationalProporties = false, bool isReadOnly = true)
         { 
          return await repository.ReadAdAsync(key, navigationalProporties, isReadOnly);
         }
 
+        //Read all method
         public async Task<ICollection<AthleteAd>> ReadAllAdsAsync(bool navigationalProporties = false, bool isReadOnly = true)
         { 
          return await repository.ReadAllAdsAsync(navigationalProporties, isReadOnly);
         }
 
+        //Update method
         public async Task UpdateAdAsync(AthleteAd item, bool navigationalProporties = false)
         { 
          await repository.UpdateAdAsync(item, navigationalProporties);
         }
 
+        //Delete method
         public async Task DeleteAdAsync(string key)
         { 
          await repository.DeleteAdAsync(key);

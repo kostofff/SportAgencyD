@@ -20,10 +20,10 @@ namespace SeedingDB
             try
             {
                 IdentityOptions options = new IdentityOptions();
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequiredLength = 5;
 
                 DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
@@ -56,7 +56,7 @@ namespace SeedingDB
                 }
 
 
-                Tuple<IdentityResult, User> result = await userIdentityRepository.CreateUserAsync("admin", "admin", "admincho@abv.bg", "31313131", Role.Admin);
+                Tuple<IdentityResult, User> result = await userIdentityRepository.CreateUserAsync("admin", "******", "admincho@abv.bg", "0894747825", Role.Admin);
 
                 Console.WriteLine("Roles added successfully!");
 

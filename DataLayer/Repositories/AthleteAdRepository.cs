@@ -14,7 +14,7 @@ namespace DataLayer.Repositories
             this.context = context;
         }
         #region CRUD
-        public async Task CreateAdAsync(AthleteAd item)
+        public async Task CreateAdAsync(AthleteAd item) // Creating ad method
         {
             User userFromDb = await context.Users.FindAsync(item.UserId);
             if (userFromDb != null)
@@ -24,7 +24,7 @@ namespace DataLayer.Repositories
             context.AthleteAds.Add(item);
             await context.SaveChangesAsync();
         }
-        public async Task DeleteAdAsync(string key)
+        public async Task DeleteAdAsync(string key) // Deleting ad method
         {
             try
             {
@@ -43,7 +43,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public async Task<AthleteAd> ReadAdAsync(string key, bool navigationalProporties = false, bool isReadOnly = true)
+        public async Task<AthleteAd> ReadAdAsync(string key, bool navigationalProporties = false, bool isReadOnly = true) // Reading single ad method
         {
             try
             {
@@ -67,7 +67,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public async Task<ICollection<AthleteAd>> ReadAllAdsAsync(bool navigationalProporties = false, bool isReadOnly = true)
+        public async Task<ICollection<AthleteAd>> ReadAllAdsAsync(bool navigationalProporties = false, bool isReadOnly = true) // Reading all ads method
         {
             try
             {
@@ -91,7 +91,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public async Task UpdateAdAsync(AthleteAd item, bool navigationalProporties = false)
+        public async Task UpdateAdAsync(AthleteAd item, bool navigationalProporties = false) // Updating ad method
         {
             AthleteAd athleteAdFromDb = await ReadAdAsync(item.Id, navigationalProporties, false);
             athleteAdFromDb.Title = item.Title;
@@ -115,7 +115,7 @@ namespace DataLayer.Repositories
                     athleteAdFromDb.User = item.User;
                 }
             }
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(); 
         }
         #endregion
     }

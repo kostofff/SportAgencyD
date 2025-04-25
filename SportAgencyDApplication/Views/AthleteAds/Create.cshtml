@@ -41,9 +41,14 @@
         var sport = document.getElementById('Sport');
         var currentSport = sport.options[sport.selectedIndex].value;
 
-        position.disabled = false;
+        position.innerHTML = ''; // Изчистваме позициите
 
-        position.innerHTML = '';
+    if (!currentSport) {
+        position.disabled = true;
+        return; // Няма избран спорт, спираме тук
+    }
+
+    position.disabled = false;
 
         if (currentSport === 'Football') {
             position.innerHTML += '<option value="Goalkeeper">Goalkeeper</option>';
@@ -112,8 +117,13 @@
             <div class="row mb-3">
                 <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Sport)</label>
                 <div class="col-sm-8">
-                    <select asp-for="Sport" id="Sport" class="form-control" asp-items="ViewBag.Sports" onchange="OnSportChange()">
-                        <option value="">-- Select Sport --</option>
+                    <select id="Sport" name="Sport" class="form-control" onchange="OnSportChange()">
+                        <option value="">Избери спорт</option>
+                        <option value="Football">Футбол</option>
+                        <option value="Basketball">Баскетбол</option>
+                        <option value="Volleyball">Волейбол</option>
+                        <option value="HockeyOnIce">Хокей на лед</option>
+                        <option value="HockeyOnGrass">Хокей на трева</option>
                     </select>
                     <span asp-validation-for="Sport" class="text-danger"></span>
                 </div>
@@ -123,7 +133,7 @@
                 <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Position)</label>
                 <div class="col-sm-8">
                     <select asp-for="Position" id="Position" class="form-control" disabled>
-                        <option value="">-- Select Position --</option>
+                        <option value="">-- Избери позиция --</option>
                     </select>
                     <span asp-validation-for="Position" class="text-danger"></span>
                 </div>
@@ -133,7 +143,7 @@
                 <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.Country)</label>
                 <div class="col-sm-8">
                     <select asp-for="Country" class="form-control" asp-items="ViewBag.Country">
-                        <option value="">-- Select Country --</option>
+                        <option value="">-- Избери държава --</option>
                     </select>
                     <span asp-validation-for="Country" class="text-danger"></span>
                 </div>
@@ -151,7 +161,7 @@
                 <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.LeftOrRighFoot)</label>
                 <div class="col-sm-8">
                     <select asp-for="LeftOrRighFoot" class="form-control" asp-items="ViewBag.LeftOrRightFoot">
-                        <option value="">-- Select Left or Right foot --</option>
+                        <option value="">-- Избери --</option>
                     </select>
                     <span asp-validation-for="LeftOrRighFoot" class="text-danger"></span>
                 </div>

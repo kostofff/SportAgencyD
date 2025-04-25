@@ -16,6 +16,8 @@ namespace BusinessLayer.Entities
     }
     public class AthletesApplication
     {
+        #region Properties
+
         public string ApplicationId { get; set; } = Guid.NewGuid().ToString();
 
         public string AthleteId { get; set; }
@@ -30,6 +32,9 @@ namespace BusinessLayer.Entities
         public ApplicationStatus Status { get; set; } = ApplicationStatus.Pending;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        #endregion
+
+        #region Constructors
         public AthletesApplication() { }
 
         public AthletesApplication(Athlete athlete, Club club, ClubAd clubAd)
@@ -41,6 +46,8 @@ namespace BusinessLayer.Entities
             ClubAd = clubAd;
             ClubAdId = clubAd.Id;
         }
+
+        #endregion
     }
 
 }

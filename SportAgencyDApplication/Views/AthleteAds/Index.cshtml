@@ -35,6 +35,8 @@
         padding: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Лека сянка */
         backdrop-filter: blur(8px); /* Замъгляване на фона */
+        overflow-x: auto; /* ново */
+        max-width: 100%; /* ново */
     }
 
     select, label {
@@ -58,8 +60,18 @@
     .table thead th {
         background: rgba(0, 0, 0, 0.8);
         color: white;
+        max-width: 120px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
     }
 
+    .table tbody td {
+        max-width: 120px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
     .table tbody tr:hover {
         background: rgba(255, 255, 255, 0.2);
     }
@@ -116,7 +128,7 @@
             </select>
 
 
-                <label>Силен крак:</label>
+                <label>Силен крак/ръка:</label>
             <select class="text-white" id="footFilter" onchange="fetchSortedAthleteAds()">
                     <option value="">Всички</option>
                     <option value="LeftFoot">Ляв</option>
@@ -134,7 +146,7 @@
                 <a asp-action="Create" class="btn btn-primary">Създай нова обява</a>
             </div>
 
-        <div id="adsContainer" class="table-container">
+        <div id="adsContainer" class="table-responsive table-container">
             <table class="table table-hover">
             <thead>
 
@@ -275,7 +287,7 @@
             </select>
 
 
-            <label>Силен крак:</label>
+            <label>Силен крак/ръка:</label>
             <select class="text-white" id="footFilter" onchange="fetchSortedAthleteAds()">
                 <option value="">Всички</option>
                 <option value="LeftFoot">Ляв</option>
@@ -289,8 +301,8 @@
             </select>
         </div>
 
-        <div id="adsContainer" class="table-container">
-        <table class="table table-hover">
+        <div id="adsContainer" class="table-responsive table-container">
+         <table class="table table-hover">
             <thead>
 
 
