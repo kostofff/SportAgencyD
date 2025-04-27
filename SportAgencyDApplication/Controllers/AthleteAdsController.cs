@@ -10,10 +10,11 @@ using DataLayer;
 using ServiceLayer.Contexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace SportAgencyDApplication.Controllers
 {
-    [Authorize(Roles = "Athlete,Club,Admin")] 
+    [Authorize(Roles = "Athlete,Club,Admin")]
     public class AthleteAdsController : Controller
     {
         private readonly SportAgencyDbContext _context;
@@ -22,7 +23,7 @@ namespace SportAgencyDApplication.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SportAgencyDbContext _sportAgencyDbContext;
 
-        public AthleteAdsController(AthleteAdContext athleteAdContext, UserIdentityContext usercontext, UserManager<User> userManager, SportAgencyDbContext sportAgencyDbContext,SportAgencyDbContext context)
+        public AthleteAdsController(AthleteAdContext athleteAdContext, UserIdentityContext usercontext, UserManager<User> userManager, SportAgencyDbContext sportAgencyDbContext, SportAgencyDbContext context)
         {
             this.athleteAdContext = athleteAdContext;
             this.usercontext = usercontext;
@@ -31,7 +32,33 @@ namespace SportAgencyDApplication.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "Admin")]
+    
+        public async Task<IActionResult> AdInfo(string userId)
+        { 
+         var user = await usercontext.FindUserByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var athleteAd = await _context.AthleteAds.Where(a => a.UserId == userId).FirstOrDefaultAsync();
+
+            var model = new AthleteAdInfoViewModel
+            {
+                UserName = user.UserName,
+                UserId = user.Id,
+                AdTeamsPlayed = athleteAd?.TeamsPlayed,
+                AdSport = athleteAd?.Sport.ToString(),
+                AdPosition = athleteAd?.Position.ToString(),
+                LeftOrRightFoot = (LeftOrRightFoot)(athleteAd?.LeftOrRighFoot),
+                Country = (Country)(athleteAd?.Country),
+                City = athleteAd?.City
+            };
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "Admin,Club")]
         public IActionResult UserAds(string userId)
         {
             var userAds = _context.AthleteAds
@@ -134,6 +161,19 @@ namespace SportAgencyDApplication.Controllers
             {
                 return NotFound();
             }
+
+            // Проверка дали атлетът е подал заявление за обявата
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Това е текущият влязъл юзер
+            var club = await _context.Users.OfType<Club>().FirstOrDefaultAsync(a => a.Id == userId);
+
+            bool hasAlreadyApplied = false;
+            if (club != null)
+            {
+                // Проверка дали клубът е подал заявление за обявата
+                hasAlreadyApplied = await _context.ClubsApplication.AnyAsync(a => a.AthleteAdId == athleteAd.Id && a.ClubId == club.Id);
+            }
+
+            ViewBag.HasAlreadyApplied = hasAlreadyApplied;
 
             return View(athleteAd);
         }

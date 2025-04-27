@@ -1,130 +1,188 @@
-﻿@model BusinessLayer.Entities.User
+﻿@model BusinessLayer.Entities.UserDetailsViewModel
 @using BusinessLayer.Entities
 @using Microsoft.AspNetCore.Identity
-    @inject SignInManager<User> SignInManager
-    @inject UserManager<User> UserManager
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "Details";
 }
 
 <style>
-
     .details-container {
-        background: rgba(0, 0, 0, 0.6); /* Черен с 60% прозрачност */
-        border-radius: 20px; /* Заоблени ъгли */
-        padding: 30px; /* Вътрешен отстъп */
-        color: white; /* Бял текст за контраст */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Лека сянка */
-        backdrop-filter: blur(8px); /* Замъгляване на фона */
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 20px;
+        padding: 30px;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(8px);
     }
-
-    .card-body dt{
+    .card-body dt {
         color: white;
     }
-
     .card-body dd {
         color: white;
     }
-
-
 </style>
 
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
 {
-
-    <div class="details-container">
-        <div class="card-header bg-primary text-white text-center rounded-3">
-            <h2>Детайли за Потребител</h2>
-        </div>
-        <div class="card-body p-4">
-            <dl class="row">
-                <dt class="col-sm-2">@Html.Label("Id", "Потребителско ID")</dt>
-                <dd class="col-sm-10">@Html.DisplayFor(model => model.Id)</dd>
-
-                <dt class="col-sm-2">@Html.Label("UserName", "Потребителско име")</dt>
-                <dd class="col-sm-10">@Html.DisplayFor(model => model.UserName)</dd>
-
-                <dt class="col-sm-2">@Html.Label("Email", "Имейл адрес")</dt>
-                <dd class="col-sm-10">@Html.DisplayFor(model => model.Email)</dd>
-
-                <dt class="col-sm-2">@Html.Label("PhoneNumber", "Телефонен номер")</dt>
-                <dd class="col-sm-10">@Html.DisplayFor(model => model.PhoneNumber)</dd>
-
-                <dt class="col-sm-2">@Html.DisplayNameFor(model => model.UserRole)</dt>
-                <dd class="col-sm-10">@Html.DisplayFor(model => model.UserRole)</dd>
-            </dl>
-        </div>
-
-        <div class="card-footer text-center">
-            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">✏️ Редактирай</a>
-            <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно към списъка с обяви</a>
-            @if (Model.UserRole == BusinessLayer.Role.Athlete)
-            {
-                <a asp-controller="AthleteAds" asp-action="UserAds" asp-route-userId="@Model.Id" class="btn btn-primary">
-                    Виж обявите на този спортист
-                </a>
-            }
-            else if (Model.UserRole == BusinessLayer.Role.Club)
-            {
-                <a asp-controller="ClubAds" asp-action="UserAds" asp-route-userId="@Model.Id" class="btn btn-primary">
-                    Виж обявите на този клуб
-                </a>
-            }
-        </div>
-    </div>
-}
-
-@if (SignInManager.IsSignedIn(User))
-{
-    @if (User.IsInRole("Athlete") || User.IsInRole("Club"))
-    {
         <div class="details-container">
             <div class="card-header bg-primary text-white text-center rounded-3">
-                @if ((User.IsInRole("Athlete") && Model.UserRole == BusinessLayer.Role.Club) ||
-               (User.IsInRole("Club") && Model.UserRole == BusinessLayer.Role.Athlete))
-                {
-                    <h2>Детайли за потребителя</h2>
-                }
-                else
-                {
-                    <h2>Профил</h2>
-                }
+                <h2>Детайли за Потребител</h2>
             </div>
             <div class="card-body p-4">
                 <dl class="row">
-                    <dt class="col-sm-2">@Html.Label("Id", "Потребителско ID")</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.Id)</dd>
+                    <dt class="col-sm-2">Потребителско ID</dt>
+                    <dd class="col-sm-10">@Model.Id</dd>
 
-                    <dt class="col-sm-2">@Html.Label("UserName", "Потребителско име")</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.UserName)</dd>
+                    <dt class="col-sm-2">Потребителско име</dt>
+                    <dd class="col-sm-10">@Model.UserName</dd>
 
-                    <dt class="col-sm-2">@Html.Label("Email", "Имейл адрес")</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.Email)</dd>
+                    <dt class="col-sm-2">Имейл адрес</dt>
+                    <dd class="col-sm-10">@Model.Email</dd>
 
-                    <dt class="col-sm-2">@Html.Label("PhoneNumber", "Телефонен номер")</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.PhoneNumber)</dd>
+                    <dt class="col-sm-2">Телефонен номер</dt>
+                    <dd class="col-sm-10">@Model.PhoneNumber</dd>
 
-                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.UserRole)</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.UserRole)</dd>
+                    <dt class="col-sm-2">Роля</dt>
+                    <dd class="col-sm-10">@Model.UserRole</dd>
+
+                @if (Model.UserRole == BusinessLayer.Role.Athlete.ToString())
+                {
+                            <dt class="col-sm-2">Име</dt>
+                            <dd class="col-sm-10">@Model.FirstName</dd>
+
+                            <dt class="col-sm-2">Фамилия</dt>
+                            <dd class="col-sm-10">@Model.LastName</dd>
+
+                            <dt class="col-sm-2">Години</dt>
+                            <dd class="col-sm-10">@Model.Age</dd>
+                }
+                else if (Model.UserRole == BusinessLayer.Role.Club.ToString())
+                {
+                            <dt class="col-sm-2">Име на клуба</dt>
+                            <dd class="col-sm-10">@Model.ClubName</dd>
+
+                            <dt class="col-sm-2">Държава</dt>
+                            <dd class="col-sm-10">@Model.Country</dd>
+
+                            <dt class="col-sm-2">Град</dt>
+                            <dd class="col-sm-10">@Model.City</dd>
+
+                            <dt class="col-sm-2">Лига</dt>
+                            <dd class="col-sm-10">@Model.League</dd>
+
+                            <dt class="col-sm-2">Уебсайт</dt>
+                            <dd class="col-sm-10">@Model.Website</dd>
+                }
                 </dl>
             </div>
-            @if ((User.IsInRole("Athlete") && Model.UserRole == BusinessLayer.Role.Club) ||
-                (User.IsInRole("Club") && Model.UserRole == BusinessLayer.Role.Athlete))
+
+            <div class="card-footer text-center">
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">✏️ Редактирай</a>
+                <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно към списъка с обяви</a>
+
+            @if (Model.UserRole == BusinessLayer.Role.Athlete.ToString())
             {
-                <h1>Ok</h1>
+                        <a asp-controller="AthleteAds" asp-action="UserAds" asp-route-userId="@Model.Id" class="btn btn-primary">
+                            Виж обявите на този спортист
+                        </a>
+            }
+            else if (Model.UserRole == BusinessLayer.Role.Club.ToString())
+            {
+                        <a asp-controller="ClubAds" asp-action="UserAds" asp-route-userId="@Model.Id" class="btn btn-primary">
+                            Виж обявите на този клуб
+                        </a>
+            }
+            </div>
+        </div>
+}
+else if (SignInManager.IsSignedIn(User))
+{
+    @if (User.IsInRole("Athlete") || User.IsInRole("Club"))
+    {
+                <div class="details-container">
+                    <div class="card-header bg-primary text-white text-center rounded-3">
+                @if ((User.IsInRole("Athlete") && Model.UserRole == BusinessLayer.Role.Club.ToString()) ||
+                    (User.IsInRole("Club") && Model.UserRole == BusinessLayer.Role.Athlete.ToString()))
+                {
+                                <h2>Детайли за потребителя</h2>
+                }
+                else
+                {
+                                <h2>Профил</h2>
+                }
+                    </div>
+                    <div class="card-body p-4">
+                        <dl class="row">
+                            <dt class="col-sm-2">Потребителско ID</dt>
+                            <dd class="col-sm-10">@Model.Id</dd>
+
+                            <dt class="col-sm-2">Потребителско име</dt>
+                            <dd class="col-sm-10">@Model.UserName</dd>
+
+                            <dt class="col-sm-2">Имейл адрес</dt>
+                            <dd class="col-sm-10">@Model.Email</dd>
+
+                            <dt class="col-sm-2">Телефонен номер</dt>
+                            <dd class="col-sm-10">@Model.PhoneNumber</dd>
+
+                            <dt class="col-sm-2">Роля</dt>
+                            <dd class="col-sm-10">@Model.UserRole</dd>
+
+                    @if (Model.UserRole == BusinessLayer.Role.Athlete.ToString())
+                    {
+                            <dt class="col-sm-2">Име</dt>
+                            <dd class="col-sm-10">@Model.FirstName</dd>
+
+                            <dt class="col-sm-2">Фамилия</dt>
+                            <dd class="col-sm-10">@Model.LastName</dd>
+
+                            <dt class="col-sm-2">Години</dt>
+                            <dd class="col-sm-10">@Model.Age</dd>
+                    }
+                    else if (Model.UserRole == BusinessLayer.Role.Club.ToString())
+                    {
+                                        <dt class="col-sm-2">Име на клуба</dt>
+                                        <dd class="col-sm-10">@Model.ClubName</dd>
+
+                                        <dt class="col-sm-2">Държава</dt>
+                                        <dd class="col-sm-10">@Model.Country</dd>
+
+                                        <dt class="col-sm-2">Град</dt>
+                                        <dd class="col-sm-10">@Model.City</dd>
+
+                                        <dt class="col-sm-2">Лига</dt>
+                                        <dd class="col-sm-10">@Model.League</dd>
+
+                                        <dt class="col-sm-2">Уебсайт</dt>
+                                        <dd class="col-sm-10">@Model.Website</dd>
+                    }
+                        </dl>
+                    </div>
+
+            @if ((User.IsInRole("Athlete") && Model.UserRole == BusinessLayer.Role.Club.ToString()) ||
+                (User.IsInRole("Club") && Model.UserRole == BusinessLayer.Role.Athlete.ToString()))
+            {
+                <button onclick="history.back()" class="btn btn-secondary">⬅️</button>
             }
             else
             {
-                <div class="card-footer text-center">
-                    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">✏️ Редактирай</a>
-                </div>
+                       @if (Model.UserRole == "Athlete")
+                       {
+                       <a asp-action="EditAthlete" asp-route-id="@Model.Id" class="btn btn-success">Редактирай лични данни</a>
+                       }
+                       else if (Model.UserRole == "Club")
+                       {
+                       <a asp-action="EditClub" asp-route-id="@Model.Id" class="btn btn-success">Редактирай лични данни на клуба</a>
+                       }
+
+                       <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Редактирай Основни Данни</a>
+ 
+
             }
-
-        </div>
-        
-    
+                </div>
     }
-
-
 }

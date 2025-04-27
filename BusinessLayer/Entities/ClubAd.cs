@@ -49,10 +49,11 @@ namespace BusinessLayer.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [Display(Name = "Потребител")]
+        [ForeignKey("UserId")]
         public string UserId { get; set; }
 
         [Display(Name = "Потребител")]
-        [ForeignKey("UserId")]
+        
         public virtual User? User { get; set; }
 
         #endregion

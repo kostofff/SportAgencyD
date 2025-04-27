@@ -10,6 +10,7 @@ using DataLayer;
 using ServiceLayer.Contexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace SportAgencyDApplication.Controllers
 {
@@ -28,6 +29,32 @@ namespace SportAgencyDApplication.Controllers
             _userManager = userManager;
             _context = context;
         }
+
+        public async Task<IActionResult> AdInfo(string userId)
+        {
+            var user = await _userIdentityContext.FindUserByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var clubAd = await _context.ClubAds.Where(a => a.UserId == userId).FirstOrDefaultAsync();
+
+            var model = new ClubAdInfoViewModel
+            {
+                UserId = userId,
+                UserName = user.UserName,
+                Description = clubAd?.Description,
+                AdSport = clubAd?.Sport.ToString(),
+                AdPosition = clubAd?.SearchedPosition.ToString(),
+                LeftOrRightFoot = (LeftOrRightFoot)(clubAd?.SearchedStrongFoot),
+                MinimumAge = clubAd?.MinimumAge ?? 0,
+                MaximumAge = clubAd?.MaximumAge ?? 0
+            };
+
+            return View(model);
+        }
+
 
         [Authorize(Roles = "Admin")]
         public IActionResult UserAds(string userId)
@@ -119,6 +146,19 @@ namespace SportAgencyDApplication.Controllers
             {
                 return NotFound();
             }
+            // Проверка дали атлетът е подал заявление за обявата
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Това е текущият влязъл юзер
+            var athlete = await _context.Users.OfType<Athlete>().FirstOrDefaultAsync(a => a.Id == userId);
+
+            bool hasAlreadyApplied = false;
+
+            if (athlete != null)
+            {
+                hasAlreadyApplied = await _context.AthletesApplication
+                    .AnyAsync(a => a.AthleteId == athlete.Id && a.ClubAdId == clubAd.Id);
+            }
+
+            ViewBag.HasAlreadyApplied = hasAlreadyApplied;
 
             return View(clubAd);
         }

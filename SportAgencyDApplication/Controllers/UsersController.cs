@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BusinessLayer;
+using BusinessLayer.Entities;
+using DataLayer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BusinessLayer.Entities;
-using DataLayer;
 using ServiceLayer.Contexts;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-using BusinessLayer;
 
 namespace SportAgencyDApplication.Controllers
 {
@@ -49,7 +45,33 @@ namespace SportAgencyDApplication.Controllers
                 return NotFound();
             }
 
-            return View(user);
+            var viewModel = new UserDetailsViewModel
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                UserRole = user.UserRole.ToString(),
+            };
+
+            //Ако потребителя е атлет
+            if (user is Athlete athlete)
+            {
+                viewModel.FirstName = athlete.FirstName;
+                viewModel.LastName = athlete.LastName;
+                viewModel.Age = athlete.Age;
+            }
+            //Ако потребителя е клуб
+            else if (user is Club club)
+            {
+                viewModel.ClubName = club.ClubName;
+                viewModel.Country = club.Country;
+                viewModel.City = club.City;
+                viewModel.League = club.League;
+                viewModel.Website = club.Website;
+            }
+
+            return View(viewModel);
         }
 
 
@@ -109,7 +131,7 @@ namespace SportAgencyDApplication.Controllers
 
 
 
-
+        // GET: AthleteAds/Edit/5
         [Authorize(Roles = "Admin,Athlete,Club")]
         public async Task<IActionResult> Edit(string id)
         {
@@ -146,7 +168,7 @@ namespace SportAgencyDApplication.Controllers
             {
                 try
                 {
-                    await usercontext.UpdateUserAsync(user.Id,user.UserName,user.PhoneNumber,user.UserRole);
+                    await usercontext.UpdateUserAsync(user.Id, user.UserName, user.Email, user.PhoneNumber, user.UserRole);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -165,22 +187,115 @@ namespace SportAgencyDApplication.Controllers
             return View(user);
         }
 
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(string id)
+
+        #region Edit Athlete personal data
+
+        // GET: Users/EditAthlete/5
+        [HttpGet]
+        [Authorize(Roles = "Admin,Athlete")]
+        public async Task<IActionResult> EditAthlete(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null) return NotFound();
 
-            var user = await usercontext.ReadUserAsync((string)id, true);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            var athlete = user as Athlete;
+            if (athlete == null) return BadRequest();
 
-            return View(user);
+            var model = new EditAthleteViewModel
+            {
+                Id = athlete.Id,
+                FirstName = athlete.FirstName,
+                LastName = athlete.LastName,
+                Age = athlete.Age
+            };
+
+            return View(model);
         }
+
+        // POST: Users/EditAthlete/5
+        [HttpPost]
+        [Authorize(Roles = "Athlete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAthlete(EditAthleteViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null) return NotFound();
+
+            var athlete = user as Athlete;
+            if (athlete == null) return BadRequest();
+
+            athlete.FirstName = model.FirstName;
+            athlete.LastName = model.LastName;
+            athlete.Age = model.Age;
+
+            await _userManager.UpdateAsync(athlete);
+
+            return RedirectToAction("Details", new { id = athlete.Id });
+        }
+
+
+        #endregion
+
+
+        #region Edit Club personal data
+
+        // GET: Users/EditClub/5
+        [HttpGet]
+        [Authorize(Roles = "Club")]
+        public async Task<IActionResult> EditClub(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null) return NotFound();
+
+            var club = user as Club;
+            if (club == null) return BadRequest();
+
+            var model = new EditClubViewModel
+            {
+                Id = club.Id,
+                ClubName = club.ClubName,
+                Country = club.Country,
+                City = club.City,
+                League = club.League,
+                Website = club.Website
+            };
+
+            return View(model);
+        }
+
+        // POST: Users/EditClub/5
+        [HttpPost]
+        [Authorize(Roles = "Club")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditClub(EditClubViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null) return NotFound();
+
+            var club = user as Club;
+            if (club == null) return BadRequest();
+
+            club.ClubName = model.ClubName;
+            club.Country = model.Country;
+            club.City = model.City;
+            club.League = model.League;
+            club.Website = model.Website;
+
+            await _userManager.UpdateAsync(club);
+
+            return RedirectToAction("Details", new { id = club.Id });
+        }
+
+
+        #endregion
+
+
 
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]

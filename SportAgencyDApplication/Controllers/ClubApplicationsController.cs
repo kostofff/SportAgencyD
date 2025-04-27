@@ -100,5 +100,17 @@ namespace SportAgencyDApplication.Controllers
 
         }
 
+        [HttpPost]
+        public IActionResult DeleteApp(string id)
+        {
+            var application = _context.ClubsApplication.Find(id);
+            if (application != null)
+            {
+                _context.ClubsApplication.Remove(application);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }

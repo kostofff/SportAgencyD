@@ -131,10 +131,17 @@
         </div>
         <div class="card-footer text-center">
             <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно към списъка с обяви</a>
-            <form asp-action="Apply" asp-controller="AthleteApplications" method="post">
-                <input type="hidden" name="id" value="@Model.Id" />
-                <button type="submit" class="btn btn-success">✅ Кандидатствай</button>
-            </form>
+            @if (!(bool)ViewBag.HasAlreadyApplied)
+            {
+                <form asp-action="Apply" asp-controller="AthleteApplications" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-success">✅ Кандидатствай</button>
+                </form>
+            }
+            else
+            {
+                <p class="text-success mt-2">✅ Вече кандидатствахте за тази обява!</p>
+            }
         </div>
     </div>
 

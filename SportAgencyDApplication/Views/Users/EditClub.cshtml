@@ -1,0 +1,99 @@
+﻿@using BusinessLayer.Entities
+@model BusinessLayer.Entities.EditClubViewModel
+
+@{
+    ViewData["Title"] = "Редакция на Клуб";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="EditClub" class="edit-form">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="ClubName"></label>
+        <input asp-for="ClubName" class="form-control" />
+        <span asp-validation-for="ClubName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Country"></label>
+        <select asp-for="Country" class="form-control">
+            @foreach (var country in Enum.GetValues(typeof(Country)))
+            {
+                <option value="@country">@country</option>
+            }
+        </select>
+        <span asp-validation-for="Country" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="City"></label>
+        <input asp-for="City" class="form-control" />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="League"></label>
+        <input asp-for="League" class="form-control" />
+        <span asp-validation-for="League" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Website"></label>
+        <input asp-for="Website" class="form-control" />
+        <span asp-validation-for="Website" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Запази</button>
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Назад</a>
+</form>
+
+@section Styles {
+    <style>
+        .edit-form {
+            background: rgba(0, 0, 0, 0.6); /* Тъмен фон с прозрачност */
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px); /* Замъгляваме фона */
+            color: white;
+        }
+
+        .form-group label {
+            color: white; /* Цвят на текстовете */
+        }
+
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.2); /* Полета с прозрачен фон */
+            border: 1px solid rgba(255, 255, 255, 0.5); /* Сивкава рамка за полетата */
+            color: white;
+        }
+
+        .form-control:focus {
+            border-color: #007bff; /* Сини рамки при фокус */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .btn {
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

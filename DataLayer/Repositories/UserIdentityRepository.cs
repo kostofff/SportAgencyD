@@ -184,7 +184,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public async Task UpdateUserAsync(string id, string username, string phoneNumber, Role newRole) // Updating user method
+        public async Task UpdateUserAsync(string id, string username,string email, string phoneNumber, Role newRole) // Updating user method
         {
             try
             {
@@ -196,6 +196,7 @@ namespace DataLayer.Repositories
                     if (user != null)
                     {
                         user.UserName = username;
+                        user.Email = email;
                         user.PhoneNumber = phoneNumber;
                         user.UserRole = newRole;
 
@@ -235,6 +236,18 @@ namespace DataLayer.Repositories
             {
                 // Identity return Null if there is no user!
                 return await userManager.FindByNameAsync(username);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<User> FindUserByIdAsync(string id) // Finding user by Id method
+        {
+            try
+            {
+                return await context.Users.FindAsync(id);
             }
             catch (Exception ex)
             {

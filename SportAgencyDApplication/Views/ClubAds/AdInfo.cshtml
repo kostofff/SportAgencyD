@@ -1,0 +1,98 @@
+﻿@model BusinessLayer.Entities.ClubAdInfoViewModel
+
+@{
+    ViewData["Title"] = "Ad Info";
+}
+
+<style>
+
+    body {
+        background: url('https://source.unsplash.com/1600x900/?sports') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+    }
+
+    .filter-container {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Лека сянка */
+        backdrop-filter: blur(8px); /* Замъгляване на фона */
+    }
+
+    .table-container {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Лека сянка */
+        backdrop-filter: blur(8px); /* Замъгляване на фона */
+    }
+
+    select, label {
+        color: white;
+    }
+
+        select option {
+            background-color: #555; /* Сиво */
+            color: white; /* Бял текст */
+        }
+
+
+    select {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        margin-right: 10px;
+    }
+
+    .table thead th {
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    a.btn {
+        margin-right: 5px;
+    }
+
+</style>
+
+<div class="table-responsive table-container">
+    <div class="card-header bg-primary text-white text-center rounded-3">
+        <h2>Детайли за клуба и какво търси</h2>
+    </div>
+    <div class="card-body p-4">
+        <dl class="row">
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.AdSport)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.AdSport)</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.AdPosition)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.AdPosition)</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.LeftOrRightFoot)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.LeftOrRightFoot)</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MinimumAge)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.MinimumAge)</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MaximumAge)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.MaximumAge)</dd>
+
+            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Description)</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Description)</dd>
+
+            @* <dt class="col-sm-2">Име на атлета</dt>
+            <dd class="col-sm-10">@Model.Athlete?.FirstName</dd> *@
+        </dl>
+    </div>
+
+    <div>
+        <button onclick="history.back()" class="btn btn-secondary">⬅️</button>
+    </div>
+</div>

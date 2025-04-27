@@ -74,52 +74,120 @@
         overflow: hidden;
         text-overflow: ellipsis; /* Ако е много дълго, да се скрива с "..."*/
     }
+
+    .pulse-button {
+        animation: pulse 1.5s infinite;
+    }
+
+    @@keyframes pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+        }
+
+        70% {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0);
+        }
+
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+        }
+    }
 </style>
 
-<div id="adsContainer" class="table-container">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Athlete)</th>
-                <th>@Html.DisplayNameFor(model => model.Club)</th>
-                <th>@Html.DisplayNameFor(model => model.AthleteAd)</th>
-                <th>@Html.DisplayNameFor(model => model.Status)</th>
-                <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+@if (!Model.Any())
+{
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 70vh;">
+        <img src="https://cdn-icons-png.flaticon.com/512/4076/4076503.png" alt="No Applications" style="width: 150px; height: 150px; opacity: 0.8;" />
+
+        <div style="
+        background: rgba(0, 0, 0, 0.5);
+        padding: 20px 30px;
+        border-radius: 15px;
+        margin-top: 20px;
+        text-align: center;">
+
+            <h2 style="color: white; font-weight: bold; font-size: 2rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">
+                Все още няма кандидатури
+            </h2>
+            <p style="color: #ddd; font-size: 1.2rem;">
+                Изчакайте, скоро ще се появят желаещи!
+            </p>
+
+            <button onclick="history.back()" class="btn btn-light mt-3 pulse-button" style="font-weight: bold;">
+                ⬅️ Назад
+            </button>
+        </div>
+    </div>
+}
+else
+{
+
+    <div id="adsContainer" class="table-container">
+        <table class="table table-hover">
+            <thead>
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Athlete.UserName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Club.UserName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.AthleteAd.Title)</td>
-                    <td>
-                        @if (item.Status == ApplicationStatus.Pending)
-                        {
-                            <span class="badge bg-warning">В очакване</span>
-                        }
-                        else if (item.Status == ApplicationStatus.Accepted)
-                        {
-                            <span class="badge bg-success">Прието</span>
-                        }
-                        else if (item.Status == ApplicationStatus.Rejected)
-                        {
-                            <span class="badge bg-danger">Отхвърлено</span>
-                        }
-                    </td>
-                    <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
-                    <td>
-                        <form asp-controller="ClubApplications" asp-action="ChangeStatus" method="post" style="display:inline;">
-                            <input type="hidden" name="id" value="@item.ApplicationId" />
-                            <input type="hidden" name="newStatus" value="Accepted" />
-                            <button type="submit" class="btn btn-success">✅ Одобри</button>
-                        </form>
-                    </td>
+                    <th>@Html.DisplayNameFor(model => model.Athlete)</th>
+                    <th>@Html.DisplayNameFor(model => model.Club)</th>
+                    <th>@Html.DisplayNameFor(model => model.AthleteAd)</th>
+                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                    <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Athlete.UserName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Club.UserName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AthleteAd.Title)</td>
+                        <td>
+                            @if (item.Status == ApplicationStatus.Pending)
+                            {
+                                <span class="badge bg-warning">В очакване</span>
+                            }
+                            else if (item.Status == ApplicationStatus.Accepted)
+                            {
+                                <span class="badge bg-success">Прието</span>
+                            }
+                            else if (item.Status == ApplicationStatus.Rejected)
+                            {
+                                <span class="badge bg-danger">Отхвърлено</span>
+                            }
+                        </td>
+                        <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <form asp-controller="ClubApplications" asp-action="ChangeStatus" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@item.ApplicationId" />
+                                <input type="hidden" name="newStatus" value="Accepted" />
+                                @if (item.Status == ApplicationStatus.Accepted)
+                                {
+                                    <button type="submit" class="btn btn-success">Виж контакти</button>
+                                    <a asp-controller="ClubAds" asp-action="AdInfo" asp-route-userId="@item.ClubId" class="btn btn-primary">
+                                        Инфрормация
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-success">✅ Одобри</button>
+                                    <a asp-controller="ClubAds" asp-action="AdInfo" asp-route-userId="@item.ClubId" class="btn btn-primary">
+                                        Инфрормация
+                                    </a>
+                                }
+                            </form>
+                            <form asp-controller="ClubApplications" asp-action="DeleteApp" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@item.ApplicationId" />
+                                <button type="submit" class="btn btn-danger">❌ Отхвърли</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+}
 

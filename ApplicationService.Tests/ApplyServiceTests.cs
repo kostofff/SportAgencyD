@@ -33,7 +33,7 @@ namespace ApplicationService.Tests
                 Title = "Test Ad",
                 Sport = Sports.Football,
                 SearchedPosition = Position.Forward,
-                SearchedStrongFoot = LeftOrRightFoot.LeftFoot,
+                SearchedStrongFoot = LeftOrRightFoot.Left,
                 MinimumAge = 18,
                 MaximumAge = 25,
                 Description = "Test description",
