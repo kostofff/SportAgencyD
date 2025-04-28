@@ -5,7 +5,7 @@
     ViewData["Title"] = "Редакция на Клуб";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2 class="text-white">@ViewData["Title"]</h2>
 
 <form asp-action="EditClub" class="edit-form">
     <input type="hidden" asp-for="Id" />
@@ -52,43 +52,72 @@
 @section Styles {
     <style>
         .edit-form {
-            background: rgba(0, 0, 0, 0.6); /* Тъмен фон с прозрачност */
-            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.6); /* Тъмен прозрачен фон */
+            border-radius: 12px;
             padding: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(8px); /* Замъгляваме фона */
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
             color: white;
         }
 
-        .form-group label {
-            color: white; /* Цвят на текстовете */
+        select option {
+            background-color: #555; /* Сиво */
+            color: white; /* Бял текст */
         }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                color: white;
+                font-weight: bold;
+            }
 
         .form-control {
-            background-color: rgba(255, 255, 255, 0.2); /* Полета с прозрачен фон */
-            border: 1px solid rgba(255, 255, 255, 0.5); /* Сивкава рамка за полетата */
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
         }
 
-        .form-control:focus {
-            border-color: #007bff; /* Сини рамки при фокус */
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
+            .form-control::placeholder {
+                color: rgba(255, 255, 255, 0.7);
+            }
+
+            .form-control:focus {
+                background-color: rgba(255, 255, 255, 0.2);
+                border-color: #007bff;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.6);
+                color: white;
+            }
 
         .btn {
             margin-top: 10px;
             border-radius: 5px;
+            font-weight: bold;
+            padding: 8px 20px;
         }
 
         .btn-primary {
             background-color: #007bff;
             border: none;
+            transition: background-color 0.3s ease;
         }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
 
         .btn-secondary {
             background-color: #6c757d;
             border: none;
+            transition: background-color 0.3s ease;
         }
+
+            .btn-secondary:hover {
+                background-color: #5a6268;
+            }
     </style>
 }
 

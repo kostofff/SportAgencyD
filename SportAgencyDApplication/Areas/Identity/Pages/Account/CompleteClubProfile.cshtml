@@ -1,25 +1,85 @@
 ﻿@page
 @model CompleteClubProfileModel
-<form method="post">
-    <label>ClubName:</label>
-    <input asp-for="Input.ClubName" />
 
-    <div class="form-group">
-        <label asp-for="Input.Country"></label>
-        <select asp-for="Input.Country" asp-items="Model.Countries" class="form-control">
-            <option value="">-- Select Country --</option>
-        </select>
-        <span asp-validation-for="Input.Country" class="text-danger"></span>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card-profile p-5 text-center">
+        <h2 class="text-white mb-4">Попълване на профил на клуб</h2>
+        <form method="post">
+
+            <div class="form-group mb-3 text-start">
+                <label class="text-white" asp-for="Input.ClubName">Име на Клуб:</label>
+                <input asp-for="Input.ClubName" class="form-control" />
+            </div>
+
+            <div class="form-group mb-3 text-start">
+                <label class="text-white" asp-for="Input.Country">Държава:</label>
+                <select asp-for="Input.Country" asp-items="Model.Countries" class="form-control">
+                    <option value="">-- Изберете държава --</option>
+                </select>
+                <span asp-validation-for="Input.Country" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3 text-start">
+                <label class="text-white" asp-for="Input.City">Град:</label>
+                <input asp-for="Input.City" class="form-control" />
+            </div>
+
+            <div class="form-group mb-3 text-start">
+                <label class="text-white" asp-for="Input.League">Лига:</label>
+                <input asp-for="Input.League" class="form-control" />
+            </div>
+
+            <div class="form-group mb-4 text-start">
+                <label class="text-white" asp-for="Input.Website">Уебсайт:</label>
+                <input asp-for="Input.Website" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Запази</button>
+        </form>
     </div>
+</div>
 
-    <label>City:</label>
-    <input asp-for="Input.City" />
+@section Styles {
+    <style>
+        .card-profile {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 550px;
+            animation: fadeIn 1s ease-in-out;
+        }
 
-    <label>League:</label>
-    <input asp-for="Input.League" />
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
 
-    <label>Website:</label>
-    <input asp-for="Input.Website" />
+        .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.25);
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+            color: white;
+        }
 
-    <button type="submit">Save</button>
-</form>
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        @@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+}

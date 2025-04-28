@@ -88,164 +88,194 @@
 
 </style>
 
-@if (!roles.Contains("Athlete"))
+@if (!Model.Any())
 {
 
-    <div class="container mt-4">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 70vh;">
+        <img src="https://cdn-icons-png.flaticon.com/512/4076/4076503.png" alt="No Applications" style="width: 150px; height: 150px; opacity: 0.8;" />
 
+        <div style="
+        background: rgba(0, 0, 0, 0.5);
+        padding: 20px 30px;
+        border-radius: 15px;
+        margin-top: 20px;
+        text-align: center;">
 
-    @if (roles.Contains("Admin"))
-    {
-        <h1 class="text-center mb-4">Обяви на клубове</h1>
-    }
-    else
-    {
-        <h1 class="text-center mb-4">Твоите обяви</h1>
-    }
+            <h2 style="color: white; font-weight: bold; font-size: 2rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">
+                Все още нямате обяви
+            </h2>
+            <p style="color: #ddd; font-size: 1.2rem;">
+                Създайте своята сега! - <a href="@Url.Action("Create", "ClubAds")" class="btn btn-primary">Създай нова обява</a>
+            </p>
 
-    <div class="filter-container">
-    <label>Спорт:</label>
-    <select id="sportFilter">
-        <option value="">Всички</option>
-        <option value="Football">Футбол</option>
-        <option value="Basketball">Баскетбол</option>
-        <option value="Volleyball">Волейбол</option>
-        <option value="HockeyOnIce">Хокей на лед</option>
-        <option value="HockeyOnGrass">Хокей на трева</option>
-    </select>
-
-    <label>Позиция:</label>
-    <select id="positionFilter">
-        <option value="">--Избери спорт--</option>
-    </select>
-
-    <label>Търсен силен крак/ръка:</label>
-    <select id="footFilter">
-        <option value="">Всички</option>
-        <option value="LeftFoot">Ляв</option>
-        <option value="RightFoot">Десен</option>
-    </select>
-
-    <label>Сортиране по дата:</label>
-    <select id="dateSort">
-        <option value="desc">Най-нови</option>
-        <option value="asc">Най-стари</option>
-    </select>
+            <button onclick="history.back()" class="btn btn-light mt-3 pulse-button" style="font-weight: bold;">
+                ⬅️ Назад
+            </button>
+        </div>
     </div>
-
-    <div class="d-flex justify-content-between mb-3">
-        <a asp-action="Create" class="btn btn-primary">Създай нова обява</a>
-    </div>
-
-
-
-    <div id="adsContainer" class="table-responsive table-container">    
-        <table class="table table-hover">
-            <thead>
-
-                <script>
-
-                    function fetchSortedAthleteAds() {
-                        var sport = document.getElementById("sportFilter").value;
-                        var position = document.getElementById("positionFilter").value;
-                        var foot = document.getElementById("footFilter").value;
-                        var dateSort = document.getElementById("dateSort").value;
-
-                        var url = `/ClubAds/GetSortedClubAds?sport=${sport}&position=${position}&foot=${foot}&dateSort=${dateSort}`;
-
-                        fetch(url)
-                            .then(response => response.text())
-                            .then(html => {
-                                document.getElementById("adsContainer").innerHTML = html;
-                            })
-                            .catch(error => console.error("Error:", error));
-                    }
-
-                    const positionsBySport = {
-                        "Football": ["GoalKeeper", "CentralBack", "LeftBack", "RightBack", "CentralDefensiveMidfielder", "CentralMidfielder",
-                            "CentralAtackingMidfielder", "LeftMidfielder", "RightMidfielder", "Striker", "LeftWinger", "RightWinger"],
-                        "Basketball": ["PointGuard", "ShootingGuard", "SmallForward"],
-                        "Volleyball": ["Setter", "OppositeHitter", "RightSideHitter", "LeftSideHitter", "MiddleBlocker", "Libero"],
-                        "HockeyOnIce": ["Goaltender", "LeftDefenseman", "RightDefenseman", "Center", "LeftWing", "RightWing"],
-                        "HockeyOnGrass": ["Goalkeeper", "CenterBack", "Fullback", "Midfielder", "Forward"]
-                    };
-
-                    function updatePositions() {
-                        var sport = document.getElementById("sportFilter").value;
-                        var positionSelect = document.getElementById("positionFilter");
-
-                        // Изчистване на позициите и добавяне на "Всички"
-                        positionSelect.innerHTML = '<option value="">Всички</option>';
-
-                        // Зареждане на съответните позиции
-                        if (sport && positionsBySport[sport]) {
-                            positionsBySport[sport].forEach(position => {
-                                var option = document.createElement("option");
-                                option.value = position;
-                                option.textContent = position;
-                                positionSelect.appendChild(option);
-                            });
-                        }
-
-                        // Изчистване на избраната позиция, ако спортът е "Всички"
-                        if (!sport) {
-                            positionSelect.value = "";
-                        }
-
-                        // Обновяване на обявите
-                        fetchSortedAthleteAds();
-                    }
-
-                    // Свързване на събитията
-                    document.getElementById("sportFilter").addEventListener("change", updatePositions);
-                    document.getElementById("positionFilter").addEventListener("change", fetchSortedAthleteAds);
-                    document.getElementById("footFilter").addEventListener("change", fetchSortedAthleteAds);
-                    document.getElementById("dateSort").addEventListener("change", fetchSortedAthleteAds);
-
-
-                </script>
-
-
-
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.Title)</th>
-                    <th>@Html.DisplayNameFor(model => model.Sport)</th>
-                    <th>@Html.DisplayNameFor(model => model.SearchedPosition)</th>
-                    <th>@Html.DisplayNameFor(model => model.SearchedStrongFoot)</th>
-                    <th>@Html.DisplayNameFor(model => model.MinimumAge)</th>
-                    <th>@Html.DisplayNameFor(model => model.MaximumAge)</th>
-                    <th>@Html.DisplayNameFor(model => model.Description)</th>
-                    <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td >@Html.DisplayFor(modelItem => item.Title)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Sport)</td>
-                        <td>@Html.DisplayFor(modelItem => item.SearchedPosition)</td>
-                        <td>@Html.DisplayFor(modelItem => item.SearchedStrongFoot)</td>
-                        <td>@Html.DisplayFor(modelItem => item.MinimumAge)</td>
-                        <td>@Html.DisplayFor(modelItem => item.MaximumAge)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                        <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td> 
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Редактирай</a>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед</a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Изтрий</a>
-                            </td>
-                    </tr>
-                }
-        </tbody>
-    </table>
-   </div>
-</div>
-
-    
 }
+else
+{
+    
+    @if (!roles.Contains("Athlete"))
+    {
 
+        <div class="container mt-4">
+
+
+            @if (roles.Contains("Admin"))
+            {
+                <h1 class="text-center mb-4">Обяви на клубове</h1>
+            }
+            else
+            {
+                <h1 class="text-center mb-4">Твоите обяви</h1>
+            }
+
+            <div class="filter-container">
+                <label>Спорт:</label>
+                <select id="sportFilter">
+                    <option value="">Всички</option>
+                    <option value="Football">Футбол</option>
+                    <option value="Basketball">Баскетбол</option>
+                    <option value="Volleyball">Волейбол</option>
+                    <option value="HockeyOnIce">Хокей на лед</option>
+                    <option value="HockeyOnGrass">Хокей на трева</option>
+                </select>
+
+                <label>Позиция:</label>
+                <select id="positionFilter">
+                    <option value="">--Избери спорт--</option>
+                </select>
+
+                <label>Търсен силен крак/ръка:</label>
+                <select id="footFilter">
+                    <option value="">Всички</option>
+                    <option value="LeftFoot">Ляв</option>
+                    <option value="RightFoot">Десен</option>
+                </select>
+
+                <label>Сортиране по дата:</label>
+                <select id="dateSort">
+                    <option value="desc">Най-нови</option>
+                    <option value="asc">Най-стари</option>
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-between mb-3">
+                <a asp-action="Create" class="btn btn-primary">Създай нова обява</a>
+            </div>
+
+
+
+            <div id="adsContainer" class="table-responsive table-container">
+                <table class="table table-hover">
+                    <thead>
+
+                        <script>
+
+                            function fetchSortedAthleteAds() {
+                                var sport = document.getElementById("sportFilter").value;
+                                var position = document.getElementById("positionFilter").value;
+                                var foot = document.getElementById("footFilter").value;
+                                var dateSort = document.getElementById("dateSort").value;
+
+                                var url = `/ClubAds/GetSortedClubAds?sport=${sport}&position=${position}&foot=${foot}&dateSort=${dateSort}`;
+
+                                fetch(url)
+                                    .then(response => response.text())
+                                    .then(html => {
+                                        document.getElementById("adsContainer").innerHTML = html;
+                                    })
+                                    .catch(error => console.error("Error:", error));
+                            }
+
+                            const positionsBySport = {
+                                "Football": ["GoalKeeper", "CentralBack", "LeftBack", "RightBack", "CentralDefensiveMidfielder", "CentralMidfielder",
+                                    "CentralAtackingMidfielder", "LeftMidfielder", "RightMidfielder", "Striker", "LeftWinger", "RightWinger"],
+                                "Basketball": ["PointGuard", "ShootingGuard", "SmallForward"],
+                                "Volleyball": ["Setter", "OppositeHitter", "RightSideHitter", "LeftSideHitter", "MiddleBlocker", "Libero"],
+                                "HockeyOnIce": ["Goaltender", "LeftDefenseman", "RightDefenseman", "Center", "LeftWing", "RightWing"],
+                                "HockeyOnGrass": ["Goalkeeper", "CenterBack", "Fullback", "Midfielder", "Forward"]
+                            };
+
+                            function updatePositions() {
+                                var sport = document.getElementById("sportFilter").value;
+                                var positionSelect = document.getElementById("positionFilter");
+
+                                // Изчистване на позициите и добавяне на "Всички"
+                                positionSelect.innerHTML = '<option value="">Всички</option>';
+
+                                // Зареждане на съответните позиции
+                                if (sport && positionsBySport[sport]) {
+                                    positionsBySport[sport].forEach(position => {
+                                        var option = document.createElement("option");
+                                        option.value = position;
+                                        option.textContent = position;
+                                        positionSelect.appendChild(option);
+                                    });
+                                }
+
+                                // Изчистване на избраната позиция, ако спортът е "Всички"
+                                if (!sport) {
+                                    positionSelect.value = "";
+                                }
+
+                                // Обновяване на обявите
+                                fetchSortedAthleteAds();
+                            }
+
+                            // Свързване на събитията
+                            document.getElementById("sportFilter").addEventListener("change", updatePositions);
+                            document.getElementById("positionFilter").addEventListener("change", fetchSortedAthleteAds);
+                            document.getElementById("footFilter").addEventListener("change", fetchSortedAthleteAds);
+                            document.getElementById("dateSort").addEventListener("change", fetchSortedAthleteAds);
+
+
+                        </script>
+
+
+
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Title)</th>
+                            <th>@Html.DisplayNameFor(model => model.Sport)</th>
+                            <th>@Html.DisplayNameFor(model => model.SearchedPosition)</th>
+                            <th>@Html.DisplayNameFor(model => model.SearchedStrongFoot)</th>
+                            <th>@Html.DisplayNameFor(model => model.MinimumAge)</th>
+                            <th>@Html.DisplayNameFor(model => model.MaximumAge)</th>
+                            <th>@Html.DisplayNameFor(model => model.Description)</th>
+                            <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Sport)</td>
+                                <td>@Html.DisplayFor(modelItem => item.SearchedPosition)</td>
+                                <td>@Html.DisplayFor(modelItem => item.SearchedStrongFoot)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MinimumAge)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MaximumAge)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Редактирай</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    }
+
+}
 
 @if (roles.Contains("Athlete"))
 {

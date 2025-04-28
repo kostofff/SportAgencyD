@@ -39,9 +39,9 @@ namespace ServiceLayer.Contexts
             return await repository.ReadAllUsersAsync(NavigationalProporties);
         }
 
-        public async Task UpdateUserAsync(string id, string username, string email, string phoneNumber, Role role)
+        public async Task UpdateUserAsync(string id, string username, string email, string phoneNumber)
         {
-            await repository.UpdateUserAsync(id, username, email, phoneNumber, role);
+            await repository.UpdateUserAsync(id, username, email, phoneNumber);
         }
 
         public async Task DeleteUserByNameAsync(string username)

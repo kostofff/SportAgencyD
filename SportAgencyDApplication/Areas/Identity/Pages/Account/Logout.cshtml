@@ -1,21 +1,81 @@
 ﻿@page
 @model LogoutModel
 @{
-    ViewData["Title"] = "Log out";
+    ViewData["Title"] = "Изход";
 }
 
-<header>
-    <h1>@ViewData["Title"]</h1>
-    @{
-        if (User.Identity?.IsAuthenticated ?? false)
+<div class="container d-flex flex-column justify-content-center align-items-center min-vh-100 text-white">
+    <div class="logout-card p-5 rounded shadow-lg text-center animate-fade-in">
+        <h1 class="display-5 fw-bold mb-4">@ViewData["Title"]</h1>
+
+        @if (User.Identity?.IsAuthenticated ?? false)
         {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
+            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                <button type="submit" class="btn btn-danger btn-lg px-5 py-2">
+                    Излез от профила
+                </button>
             </form>
         }
         else
         {
-            <p>You have successfully logged out of the application.</p>
+            <p class="lead">Успешно излязохте от профила.</p>
+            <p class="lead">Благодарим ви, че използвахте нашата платформа!</p>
+            <p class="lead">Очакваме ви отново скоро!</p>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-outline-warning mt-4">
+                Обратно към Началната страница
+            </a>
+        }
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #141e30, #243b55);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .logout-card {
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(8px);
+        border-radius: 20px;
+        max-width: 500px;
+        width: 100%;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #bb2d3b;
+        transform: scale(1.05);
+    }
+
+    .btn-outline-warning {
+        border-color: #ffc107;
+        color: #ffc107;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-warning:hover {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .animate-fade-in {
+        animation: fadeInUp 0.8s ease forwards;
+    }
+
+    @@keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @@media (max-width: 768px) {
+        .logout-card {
+            padding: 2rem 1rem;
         }
     }
-</header>
+</style>

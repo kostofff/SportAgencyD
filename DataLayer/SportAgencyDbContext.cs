@@ -94,6 +94,21 @@ namespace DataLayer
                       .WithMany()
                       .HasForeignKey(a => a.AthleteAdId)
                       .OnDelete(DeleteBehavior.Restrict);
+
+
+                // За ClubsApplication - вече ти го показах
+                modelBuilder.Entity<ClubsApplication>()
+                    .HasOne(c => c.Club)
+                    .WithMany()
+                    .HasForeignKey(c => c.ClubId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                // Ново: За AthletesApplication
+                modelBuilder.Entity<AthletesApplication>()
+                    .HasOne(a => a.Athlete)
+                    .WithMany()
+                    .HasForeignKey(a => a.AthleteId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
 

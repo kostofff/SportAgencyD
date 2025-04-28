@@ -2,9 +2,52 @@
     ViewData["Title"] = "Успешно кандидатстване";
 }
 
-<div class="text-center mt-5">
-    <h1 class="text-success">✅ Успешно кандидатствахте!</h1>
-    <p class="lead mt-3">Благодарим Ви, че кандидатствахте. Очаквайте отговор от атлета скоро.</p>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card-success p-5 text-center">
+        <div class="icon-wrapper mb-4">
+            <span class="icon">✅</span>
+        </div>
+        <h1 class="text-white mb-3">Успешно кандидатствахте!</h1>
+        <p class="lead text-white-50">Благодарим Ви, че кандидатствахте. Очаквайте отговор от атлета скоро.</p>
 
-    <a href="@Url.Action("Index", "AthleteAds")" class="btn btn-primary mt-4">⬅️ Назад към всички обяви</a>
+        <a href="@Url.Action("Index", "AthleteAds")" class="btn btn-primary mt-4">
+            ⬅️ Назад към всички обяви
+        </a>
+    </div>
 </div>
+
+@section Styles {
+    <style>
+        .card-success {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 600px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .icon-wrapper .icon {
+            font-size: 60px;
+        }
+
+        @@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+}

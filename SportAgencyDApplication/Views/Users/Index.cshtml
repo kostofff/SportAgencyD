@@ -86,7 +86,10 @@
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Редактирай</a>
                             <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Преглед на потрбител</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                            <form asp-action="Delete" asp-controller="Users" method="post" asp-route-username="@item.UserName" onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този потребител?');">
+                                <button type="submit" class="btn btn-danger">Изтрий</button>
+                            </form>
+
                         </td>
                     </tr>
                 }

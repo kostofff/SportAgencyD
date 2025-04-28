@@ -81,21 +81,22 @@
             </div>
 
             <div class="card-footer text-center">
-                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">✏️ Редактирай</a>
-                <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно към списъка с обяви</a>
-
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Редактирай основни данни</a>
             @if (Model.UserRole == BusinessLayer.Role.Athlete.ToString())
             {
+                        <a asp-action="EditAthlete" asp-route-id="@Model.Id" class="btn btn-success">Редактирай лични данни на атлета</a>
                         <a asp-controller="AthleteAds" asp-action="UserAds" asp-route-userId="@Model.Id" class="btn btn-primary">
                             Виж обявите на този спортист
                         </a>
             }
             else if (Model.UserRole == BusinessLayer.Role.Club.ToString())
             {
+                        <a asp-action="EditClub" asp-route-id="@Model.Id" class="btn btn-success">Редактирай лични данни на клуба</a>
                         <a asp-controller="ClubAds" asp-action="UserAds" asp-route-userId="@Model.Id" class="btn btn-primary">
                             Виж обявите на този клуб
                         </a>
             }
+            <a asp-action="Index" class="btn btn-secondary">⬅️ Обратно към списъка с обяви</a>
             </div>
         </div>
 }
@@ -172,7 +173,7 @@ else if (SignInManager.IsSignedIn(User))
             {
                        @if (Model.UserRole == "Athlete")
                        {
-                       <a asp-action="EditAthlete" asp-route-id="@Model.Id" class="btn btn-success">Редактирай лични данни</a>
+                       <a asp-action="EditAthlete" asp-route-id="@Model.Id" class="btn btn-success">Редактирай лични данни на атлета</a>
                        }
                        else if (Model.UserRole == "Club")
                        {
@@ -180,7 +181,9 @@ else if (SignInManager.IsSignedIn(User))
                        }
 
                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Редактирай Основни Данни</a>
- 
+                <form asp-action="Delete" asp-controller="Users" method="post" asp-route-username="@User.Identity.Name" onsubmit="return confirm('Наистина ли искате да изтриете профила си?');">
+                    <button type="submit" class="btn btn-danger">Изтрий профила</button>
+                </form>
 
             }
                 </div>

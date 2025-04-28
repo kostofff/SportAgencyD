@@ -28,7 +28,7 @@
 
 <div class="details-container">
     <div class="card-header bg-primary text-white text-center rounded-3">
-        <h2>Редактиране на обява</h2>
+        <h2>Редактиране на основни данни на потребител</h2>
     </div>
 
     <div class="card-body p-4">
@@ -57,16 +57,6 @@
                 <div class="col-sm-8">
                     <input asp-for="PhoneNumber" class="form-control" />
                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.UserRole)</label>
-                <div class="col-sm-8">
-                    <select asp-for="UserRole" class="form-control" asp-items="ViewBag.Roles">
-                        <option value="">-- Select UserRole --</option>
-                    </select>
-                    <span asp-validation-for="UserRole" class="text-danger"></span>
                 </div>
             </div>
 

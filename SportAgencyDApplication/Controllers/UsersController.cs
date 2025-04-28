@@ -16,13 +16,14 @@ namespace SportAgencyDApplication.Controllers
         private readonly UserIdentityContext usercontext;
         private readonly UserManager<User> _userManager;
         private readonly SportAgencyDbContext _sportAgencyDbContext;
+        private readonly SignInManager<User> _signInManager;
 
-        public UsersController(UserIdentityContext usercontext, UserManager<User> userManager, SportAgencyDbContext sportAgencyDbContext)
+        public UsersController(UserIdentityContext usercontext, UserManager<User> userManager, SportAgencyDbContext sportAgencyDbContext, SignInManager<User> signInManager)
         {
             this.usercontext = usercontext;
             _userManager = userManager;
             _sportAgencyDbContext = sportAgencyDbContext;
-
+            _signInManager = signInManager;
         }
 
         [Authorize(Roles = "Admin")]
@@ -168,7 +169,7 @@ namespace SportAgencyDApplication.Controllers
             {
                 try
                 {
-                    await usercontext.UpdateUserAsync(user.Id, user.UserName, user.Email, user.PhoneNumber, user.UserRole);
+                    await usercontext.UpdateUserAsync(user.Id, user.UserName, user.Email, user.PhoneNumber);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -214,7 +215,7 @@ namespace SportAgencyDApplication.Controllers
 
         // POST: Users/EditAthlete/5
         [HttpPost]
-        [Authorize(Roles = "Athlete")]
+        [Authorize(Roles = "Admin,Athlete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAthlete(EditAthleteViewModel model)
         {
@@ -244,7 +245,7 @@ namespace SportAgencyDApplication.Controllers
 
         // GET: Users/EditClub/5
         [HttpGet]
-        [Authorize(Roles = "Club")]
+        [Authorize(Roles = "Admin,Club")]
         public async Task<IActionResult> EditClub(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -268,7 +269,7 @@ namespace SportAgencyDApplication.Controllers
 
         // POST: Users/EditClub/5
         [HttpPost]
-        [Authorize(Roles = "Club")]
+        [Authorize(Roles = "Admin,Club")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditClub(EditClubViewModel model)
         {
@@ -296,14 +297,47 @@ namespace SportAgencyDApplication.Controllers
         #endregion
 
 
-
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Club,Athlete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string username)
+        public async Task<IActionResult> Delete(string username)
         {
-            await usercontext.DeleteUserByNameAsync(username);
-            return RedirectToAction(nameof(Index));
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            // Ако си Admin - може да трие всеки
+            if (User.IsInRole("Admin"))
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    TempData["SuccessMessage"] = "Потребителят беше изтрит успешно.";
+                    return RedirectToAction(nameof(Index)); 
+                }
+            }
+            // Ако е обикновен потребител - може да трие само себе си
+            else if (currentUser.UserName == username)
+            {
+                await _signInManager.SignOutAsync(); // излизане
+                var result = await _userManager.DeleteAsync(currentUser);
+                if (result.Succeeded)
+                {
+                    TempData["SuccessMessage"] = "Профилът ви беше успешно изтрит.";
+                    return RedirectToAction("Index", "Home"); // след изтриване - към начална страница
+                }
+            }
+            else
+            {
+                return Forbid(); // ако не е админ и не е собствения акаунт
+            }
+
+            TempData["ErrorMessage"] = "Грешка при изтриването на профила.";
+            return RedirectToAction("Details", "User"); // ако стане грешка
         }
 
         private bool UserExists(string id)

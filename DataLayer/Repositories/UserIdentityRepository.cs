@@ -184,7 +184,7 @@ namespace DataLayer.Repositories
             }
         }
 
-        public async Task UpdateUserAsync(string id, string username,string email, string phoneNumber, Role newRole) // Updating user method
+        public async Task UpdateUserAsync(string id, string username,string email, string phoneNumber) // Updating user method
         {
             try
             {
@@ -198,7 +198,6 @@ namespace DataLayer.Repositories
                         user.UserName = username;
                         user.Email = email;
                         user.PhoneNumber = phoneNumber;
-                        user.UserRole = newRole;
 
                         await userManager.UpdateAsync(user);
                     }
