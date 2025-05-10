@@ -20,7 +20,7 @@ namespace DataLayer
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=KOSTOF31;Database=SportAgencyD;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=SportAgencyD;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true");
             }
         }
 

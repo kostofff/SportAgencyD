@@ -28,7 +28,7 @@ namespace SeedingDB
 
                 DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
                 builder.UseSqlServer(
-                    "Server=KOSTOF31;Database=SportAgencyD;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true"
+                    "Server=localhost\\SQLEXPRESS;Database=SportAgencyD;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true"
                     );
 
                 SportAgencyDbContext dbContext = new SportAgencyDbContext(builder.Options);
@@ -56,7 +56,7 @@ namespace SeedingDB
                 }
 
 
-                Tuple<IdentityResult, User> result = await userIdentityRepository.CreateUserAsync("admin", "******", "admincho@abv.bg", "0894747825", Role.Admin);
+                Tuple<IdentityResult, User> result = await userIdentityRepository.CreateUserAsync("admin1", "Admin31!", "admin1@abv.bg", "0894747825", Role.Admin);
 
                 Console.WriteLine("Roles added successfully!");
 
