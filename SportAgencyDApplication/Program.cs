@@ -13,7 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddDbContext<SportAgencyDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+    sqlOptions => sqlOptions.EnableRetryOnFailure()
+    ));
 
 builder.Services.AddScoped<UserIdentityRepository>();
 builder.Services.AddScoped<UserIdentityContext>();
@@ -32,15 +34,7 @@ builder.Services.AddScoped<UserManager<User>>();
 builder.Services.AddScoped<SignInManager<User>>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.LoginPath = "/Identity/Account/Login";
-    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-    options.Cookie.HttpOnly = true;
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-    options.SlidingExpiration = true;
-    options.ReturnUrlParameter = "ReturnUrl"; // Добави това за коректно пренасочване
-});
+
 
 
 builder.Services.AddScoped<IUserStore<User>, UserStore<User, IdentityRole, SportAgencyDbContext>>();
@@ -51,6 +45,16 @@ builder.Services.AddScoped<SignInManager<User>>();
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<SportAgencyDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.SlidingExpiration = true;
+    options.ReturnUrlParameter = "ReturnUrl"; // Добави това за коректно пренасочване
+});
 
 
 var serviceProvider = builder.Services.BuildServiceProvider();
