@@ -28,7 +28,7 @@ namespace SeedingDB
 
                 DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
                 builder.UseSqlServer(
-                    "Server=localhost\\SQLEXPRESS;Database=SportAgencyD;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true"
+                    "Server=tcp:sportagencyserver.database.windows.net,1433;Initial Catalog=SportAgencyDb;Persist Security Info=False;User ID=CloudSA123ddf8f;Password=31033103121212mM!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
                     );
 
                 SportAgencyDbContext dbContext = new SportAgencyDbContext(builder.Options);
