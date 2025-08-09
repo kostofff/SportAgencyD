@@ -14,7 +14,7 @@ namespace DataLayer.Repositories
             this.context = context;
         }
         #region CRUD
-        public async Task CreateAdAsync(AthleteAd item) // sadd
+        public async Task CreateAdAsync(AthleteAd item) // sadsdsdd
         {
             User userFromDb = await context.Users.FindAsync(item.UserId);
             if (userFromDb != null)
