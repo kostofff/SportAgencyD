@@ -1,4 +1,4 @@
-name: .NET 8 CI
+name: .NET 8 CI/CD
 
 on:
   push:
@@ -11,30 +11,44 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2. Setup .NET 8
       - name: Setup .NET 8
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
+      # 3. Restore dependencies
       - name: Restore dependencies
         run: dotnet restore
 
+      # 4. Build project
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
+      # 5. Run tests (ако имаш тестове)
       - name: Run tests
         run: dotnet test --no-restore --verbosity normal
-      
+
+      # 6. Publish project в папка 'published'
+      - name: Publish project
+        run: dotnet publish -c Release -o published
+
+      # 7. Debug - провери съдържанието на папката published
+      - name: Show published folder contents
+        run: ls -la published
+
+      # 8. Deploy to Azure Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: "SportAgnecyApp"
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: published
+          package: ./published
